@@ -1,0 +1,14 @@
+section{
+    background-color: #FAFAFA;
+    width: 100vw;
+    min-height: calc(100vh - 51px);
+    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+}
+
+main{
+    width: 50vw;
+    height: 500px;
+}
+

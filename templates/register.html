@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <link rel="stylesheet" href="{% static 'css/cadastrar.css'%}">
+    <style>
+        *{
+            font-family: "noto sans", "sans-serif";
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <div class="card">
+            <a href="" class="logo">
+                <img src="{% static 'img/Instagram_logo.png'%}" alt="">
+            </a>
+            <form class="containerInput" action="{% url 'register '%}" method="POST">
+                {% csrf_token %}
+                <input type="email" name="email" placeholder="Email">
+                <input type="text" name="username" placeholder="Nome de usuario">
+                
+                <input type="password" name="password" placeholder="Senha">
+                <input type="password" name="password1" placeholder="Senha novamente">
+                <label>
+                    Foto de perfil:
+                    <input type="file" name="profilePhoto" accept="image/jpeg,image/png,image/heic,image/heif">
+                </label>
+                
+                <input type="submit" value="Cadastre-se">
+            </form>
+            
+            <div class="bottom">
+                <a href="" class="bottom_facebook">
+                    <img src="{% static 'img/facebookIcon.png'%}" alt="">
+                    Entrar com o Facebook
+                </a>
+                
+            </div>
+        </div>
+        <div class="cardCadastrar">
+            Tem uma conta? <a href="{% url 'login' %}">Conecte-se</a>
+        </div>
+    </section>
+    <footer>
+        Cópia do instagram feita por Enzo Wu com Django 
+        <p>© 2022 Enzo Yuji Wu</p></footer>
+{% endblock %}

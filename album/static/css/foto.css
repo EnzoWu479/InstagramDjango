@@ -1,0 +1,112 @@
+main{
+    background-color: #fff;
+    border: 1px solid #0005;
+    width: 80vw;
+    height: fit-content;
+    max-height: 80vh;
+    min-height: 500px;
+    margin-top: 50px;
+    display: flex;
+}
+.photo{
+    width: 60%;
+}
+.photo img{
+    height: 100%;
+}
+.infos{
+    width: 40%;
+}
+.infos-header{
+    border-bottom: 1px solid #0003;
+    width: 100%;
+    height: 60px;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+}
+.infos-header button{
+    width: 30px;
+    height: 100%;
+    cursor: pointer;
+}
+.infos-profile{
+    display: flex;
+    align-items: center;
+    
+}
+.infos-profileContainer{
+
+}
+.infos-profileContainer img{
+    width: 40px;
+}
+.profilename{
+    text-decoration: none;
+    margin-left: 5px;
+    margin-right: 10px;
+    color: #000;
+    font-weight: 700;
+}
+.infos_commentary{
+    margin: 10px;
+    display: flex;
+    align-items: flex-start;
+}
+.infos-profile_commentary{
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+.infos-profile_commentary a{
+    text-decoration: none;
+    margin-right: 10px;
+    color: #000;
+    font-weight: 700;
+    display: inline;
+}
+.infos-profile_commentary p{
+    display: inline;
+}
+.infos_description{
+    margin-bottom: 40px;
+}
+.publications_comment{
+    margin-left: -10px;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #0002;
+    height: 50px;
+}
+.publications_comment input{
+    width: 100%;
+    border: none;
+    background-color: transparent;
+}
+.publications_comment input:focus{
+    outline: none;
+}
+.emojiButton{
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+}
+.comment-publish{
+    color: #0999F6;
+    cursor: pointer;
+}
+.right_bar{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    min-height: calc(100% - 50px);
+    max-height: calc(100% - 50px);
+}
+.commentaries{
+    overflow-y: scroll;
+    height: fit-content;
+    max-height: 100%;
+}
+.commentaries::-webkit-scrollbar {
+    width: 0px;
+}

@@ -1,0 +1,115 @@
+body{
+    background-color: #FAFAFA;
+}
+section{
+    width: 100vw;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.card{
+    border: 1px solid #0005;
+    width: 350px;
+    height: 390px;
+    background-color: #fff;
+}
+.logo{
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.logo img{
+    width: 50%;
+}
+.containerInput{
+    margin: 0 20px;
+    display: flex;
+    flex-direction: column;
+}
+.containerInput input{
+    height: 35px;
+    width: 100%;
+    padding: 0 5px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #0005;
+    box-sizing: border-box;
+}
+.containerInput input:focus{
+    outline: none;
+}
+.containerInput input[type=submit]{
+    background-color: #B2DFFC;
+    color: white;
+    font-weight: 400;
+    cursor: pointer;
+    border: none;
+}
+.division{
+    position: relative;
+}
+.division_line{
+    height: 1px;
+    margin: 10px 35px;
+    background-color: #0005;
+}
+.division_txt{
+    position: absolute;
+    top: -5px;
+    width: 40px;
+    text-align: center;
+    left: calc(50% - 20px);
+    background-color: #fff;
+    color: #0007;
+}
+.bottom{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+}
+.bottom a{
+    text-decoration: none;
+    
+}
+.bottom_facebook{
+    height: 20px;
+    display: flex;
+    align-items: center;
+    color: #385185;
+    margin-bottom: 5px;
+}
+.bottom_facebook img{
+    height: 20px;
+    margin-right: 15px;
+}
+.bottom_forgotPassword{
+    font-size: 14px;
+    color: #385185;
+}
+.cardCadastrar{
+    width: 350px;
+    height: 70px;
+    border: 1px solid #0005;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cardCadastrar a{
+    text-decoration: none;
+    color: #0999F6;
+    margin-left: 5px;
+}
+footer{
+    width: 100vw;
+    height: 10vh;
+    text-align: center;
+    color: #0007;
+}

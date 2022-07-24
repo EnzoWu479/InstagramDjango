@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/login.css'%}">
+    <style>
+        *{
+            font-family: "noto sans", "sans-serif";
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <div class="card">
+            <a href="" class="logo">
+                <img src="{% static 'img/Instagram_logo.png'%}" alt="">
+            </a>
+            <form class="containerInput" action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
+                <input type="email" name="email" placeholder="Email">
+                <input type="password" name="password" placeholder="Senha">
+                <input type="submit" value="Entrar">
+            </form>
+            <div class="division">
+                <div class="division_line"></div>
+                <div class="division_txt">OU</div>
+            </div>
+            <div class="bottom">
+                <a href="" class="bottom_facebook">
+                    <img src="{% static 'img/facebookIcon.png'%}" alt="">
+                    Entrar com o Facebook
+                </a>
+                <a class="bottom_forgotPassword" href="">Esqueceu a senha?</a>
+            </div>
+        </div>
+        <div class="cardCadastrar">
+            Não tem uma conta? <a href="{% url 'register'%}">Cadastre-se</a>
+        </div>
+    </section>
+    <footer>
+        Cópia do instagram feita por Enzo Wu com Django 
+        <p>© 2022 Enzo Yuji Wu</p></footer>
+
+{% endblock %}

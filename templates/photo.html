@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/icons.css'%}">
+    <link rel="stylesheet" href="{% static 'css/header.css'%}">
+    <link rel="stylesheet" href="{% static 'css/section.css'%}">
+    <link rel="stylesheet" href="{% static 'css/foto.css'%}">
+    <style>
+        *{
+            font-family: "Noto sans", 'sans-serif';
+        }
+    </style>
+</head>
+<body>
+    {% include 'partials/_header.html' %}
+    <section>
+        <main>
+            <div class="photo">
+                <img src="{% static 'img/publicPhoto.jfif'%}" alt="">
+            </div>
+            <div class="infos">
+                <div class="right_bar">
+                    
+                    <div class="infos-header">
+                        <div class="infos-profile">
+                            <a class="infos-profileContainer" href="">
+                                <img class="profile_photo" src="{% static 'img/userIcon.jpg'%}" alt="">
+                            </a>
+                            <a class="profilename" href="">Fulano</a>
+                        </div>
+                        <button><i class="ellipsisIcon _icon_"></i></button>
+                    </div>
+                    <div class="commentaries">
+                        <div class="infos_commentary infos_description">
+                            <div class="infos-profile">
+                                <a class="infos-profileContainer" href="">
+                                    <img class="profile_photo" src="{% static 'img/userIcon.jpg'%}" alt="">
+                                </a>
+                            </div>
+                            <div class="infos-profile_commentary">
+                                <a class="profilename_commentary" href="">Fulano</a>
+                                <p>Descrição Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio temporibus maxime libero reprehenderit nemo enim cupiditate architecto modi iure laudantium fuga nesciunt quidem quasi corrupti illum accusantium, vel neque excepturi.</p>
+                            </div>
+                            
+                        </div>
+                        <div class="infos_commentary">
+                            <div class="infos-profile">
+                                <a class="infos-profileContainer" href="">
+                                    <img class="profile_photo" src="{% static 'img/userIcon.jpg'%}" alt="">
+                                </a>
+                            </div>
+                            <div class="infos-profile_commentary">
+                                <a class="profilename_commentary" href="">Fulano</a>
+                                <p>Descrição Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio temporibus maxime libero reprehenderit nemo enim cupiditate architecto modi iure laudantium fuga nesciunt quidem quasi corrupti illum accusantium, vel neque excepturi.</p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <form class="publications_comment">
+                    <button class="emojiButton"><i class="_icon_ smileEmojiIcon"></i></button>
+                    <input type="text" placeholder="Adicione um comentário">
+                    <button type="submit" class="comment-publish">Publicar</button>
+                </form>
+            </div>
+        </main>
+    </section>
+{% endblock  %}
