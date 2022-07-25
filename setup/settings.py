@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'setup.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME':'InstagramDB',
+        'NAME':'instagramDB',
         'USER': 'postgres',
         'PASSWORD': '30317512',
         'HOST': 'localhost'
@@ -114,7 +114,6 @@ TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/

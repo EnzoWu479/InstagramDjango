@@ -15,16 +15,16 @@
             <a href="" class="logo">
                 <img src="{% static 'img/Instagram_logo.png'%}" alt="">
             </a>
-            <form class="containerInput" action="{% url 'register '%}" method="POST">
+            <form class="containerInput" action="{% url 'register'%}" method="POST">
                 {% csrf_token %}
-                <input type="email" name="email" placeholder="Email">
-                <input type="text" name="username" placeholder="Nome de usuario">
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="text" name="username" placeholder="Nome de usuario" required>
                 
-                <input type="password" name="password" placeholder="Senha">
-                <input type="password" name="password1" placeholder="Senha novamente">
+                <input type="password" name="password" placeholder="Senha" required>
+                <input type="password" name="password1" placeholder="Senha novamente" required>
                 <label>
                     Foto de perfil:
-                    <input type="file" name="profilePhoto" accept="image/jpeg,image/png,image/heic,image/heif">
+                    <input type="file" name="profilePhoto" accept="image/jpeg,image/png,image/heic,image/heif" required>
                 </label>
                 
                 <input type="submit" value="Cadastre-se">
