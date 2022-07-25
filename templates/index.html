@@ -49,10 +49,9 @@
         </main>
         <div class="right">
             <a href="" class="right_your_account">
-                <img class="profile_photo" src="{% static 'img/userIcon.jpg'%}" alt="">
+                <img class="profile_photo" src="{{ user.profile.photo.url }}" alt="">
                 <div>
-                    <p>fulano.bom1</p>
-                    <span>fulano</span>
+                    <p>{{user.username}}</p>
                 </div>
             </a>
             <div class="right_suggestionAccount">

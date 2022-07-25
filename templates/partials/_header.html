@@ -5,9 +5,9 @@
     <div class="headerIconsContainer">
         <a href="{% url 'index'%}"><i class="houseIcon _icon_"></i></a>
         <a><i class="messengerIcon _icon_"></i></a>
-        <a><i class="plusSquareIcon _icon_"></i></a>
+        <a href="{% url 'publish'%}"><i class="plusSquareIcon _icon_"></i></a>
         <a><i class="heartIcon _icon_"></i></a>
-        <a><i class="logOutIcon _icon_"></i></a>
-        <a><img src="{% static 'img/userIcon.jpg'%}" class="profile_photo" alt=""></a>
+        <a href="{% url 'logout' %}"><i class="logOutIcon _icon_"></i></a>
+        <a><img class="profile_photo" src="{{ user.profile.photo.url }}" alt=""></a>
     </div>
 </header>

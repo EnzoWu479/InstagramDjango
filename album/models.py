@@ -10,6 +10,7 @@ class Foto(models.Model):
     profile = models.ForeignKey(User, on_delete=models.CASCADE, default='1')
     comments = ArrayField(models.TextField(max_length=100), default=list)
     public = models.BooleanField(default=True)
+    publishData = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.description

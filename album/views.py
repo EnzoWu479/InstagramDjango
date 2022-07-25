@@ -7,10 +7,8 @@ from django.contrib.auth.models import User
 def index(req):
     if not req.user.is_authenticated:
         return render("login")
-    profilePhoto = req.user.photo
-    photos = Foto.objects.order_by('titulo')
+    photos = Foto.objects.order_by('description')
     dados = {
-        'profilePhoto': profilePhoto,
         'fotos': photos
     }
     return render(req, 'index.html', dados)
@@ -39,7 +37,7 @@ def register(req):
             'username': req.POST['username'],
             'password': req.POST['password'],
             'password1': req.POST['password1'],
-            'photo': req.FILES.get('profilePhoto', 'defaultUser.jpg'),
+            'photo': req.FILES['profilePhoto'],
         }
         if emptyValue(infos['email']):
             messages.error(req, "Preencha o campo do email")
@@ -72,9 +70,10 @@ def register(req):
             username=infos['username'],
             email=infos['email'],
             password=infos['password'],
-            photo=infos['photo']
         )
-        user.save()
+        profile = user.profile
+        profile.photo = infos['photo']
+        profile.save()
         messages.success(req, "Usuário criado com sucesso")
         print("user Criado")
         return redirect("login")
@@ -83,6 +82,12 @@ def register(req):
 def publish(req):
     if not req.user.is_authenticated:
         return redirect("login")
+    if req.method == "POST":
+        infos = {
+            'photo': req.FILES['photoPublic'],
+            'description': req.POST['description']
+        }
+        
     return render(req, 'publish.html')
 
 def photo(req):
