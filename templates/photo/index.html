@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/globalStyles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/icons.css'%}">
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/section.css'%}">
+    <link rel="stylesheet" href="{% static 'css/publications.css'%}">
+    <link rel="stylesheet" href="{% static 'css/right.css' %}">
+</head>
+<body>
+    {% include 'partials/_header.html' %}
+    <section>
+        <main>
+            <div class="publications">
+                {% if fotos %}
+                {% for item in fotos %}
+                <div class="publications_item">
+                    <div class="publications_item-header">
+                        <div class="pub_item-profile">
+                            <a class="publications_item-profileContainer" href="">
+                                <img class="profile_photo" src="{{ item.profile.profile.photo.url }}" alt="">
+                            </a>
+                            <a class="profilename" href="">{{ item.profile}}</a>
+                        </div>
+                        <button>
+                            <a href="{% url 'edit' item.id %}"><i class="fa-solid fa-ellipsis"></i></a>
+                        </button>
+                    </div>
+                    <img class="publications_item-img" src="{{item.photo.url}}" alt="">
+                    <div class="icons_public">
+                        <div>
+                            <a type="button"><i class="fa-solid fa-heart"></i></a>
+                            <a type="button"><i class="fa-solid fa-comment"></i></a>
+                            <a type="button"><i class="fa-solid fa-paper-plane"></i></a>
+                        </div>
+                        <a type="button"><i class="fa-solid fa-bookmark"></i></a>
+                    </div>
+
+                    <div class="publications_description">
+                        {% if item.description %}
+                        <strong>{{ item.profile }}</strong> {{ item.description }}
+                        {% endif %}
+                    </div>
+                    <div class="publications_othercomments">
+                        {% if item.comments %}
+                        {% for comment in item.comments %}
+                        <p><strong>siclano</strong> {{comment}}</p>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                    <form class="publications_comment">
+                        <button class="emojiButton"><i class="fa-solid fa-face-grin"></i></button>
+                        <input type="text" placeholder="Adicione um comentário">
+                        <button type="submit" class="comment-publish">Publicar</button>
+                    </form>
+                </div>
+                {% endfor %}
+                {% else %}
+                
+                {% endif %}
+            </div>
+        </main>
+        <div class="right">
+            <a href="" class="right_your_account">
+                <img class="profile_photo" src="{{ user.profile.photo.url }}" alt="">
+                <div>
+                    <p>{{user.username}}</p>
+                </div>
+            </a>
+            <div class="right_suggestionAccount">
+                <h2>Sugestões para você</h2>
+                <a class="right_suggestedAccount" href="">
+                    <div>
+                        <img src="{% static 'img/userIcon1.jpg'%}" class="profile_photo" alt="">
+                        <p>Ciclano</p>
+                    </div>
+                    <p>Seguir</p>
+                </a>
+                
+            </div>
+            {% include 'partials/_footer.html' %}
+        </div>
+    </section>
+    <style>
+        .headerIconsContainer a:nth-child(1){
+            color: black;
+        }
+    </style>
+{% endblock %}

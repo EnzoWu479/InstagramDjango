@@ -1,0 +1,67 @@
+.editordelete{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.editordelete button{
+    width: 100px;
+    background-color: #F8D7DA;
+    color: #721C76;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+.confirm{
+    position: relative;
+    left: 20px;
+    top: 5px;
+    display: none;
+}
+.triangle{
+    width: 0;
+    height: 0;
+    border-left: 14px solid #0005;
+    border-top: 7px solid transparent;
+    position: absolute;
+    bottom: 0;
+}
+.triangle1{
+    width: 0;
+    height: 0;
+    border-left: 12px solid #fff;
+    border-top: 7px solid transparent;
+    position: absolute;
+    bottom: -1px;
+    left: 1px;
+}
+.ballon{
+    position: absolute;
+    border: 1px solid #0005;
+    width: 100px;
+    padding: 5px;
+    border-radius: 0 5px 5px;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    font-size: 14px;
+    text-align: center;
+    
+}
+.ballon a{
+    background-color: #F8D7DA;
+    color: #721C76;
+    border-radius: 5px;
+    text-decoration: none;
+    height: 20px;
+    text-align: center;
+    margin-top: 10px;
+}
+.imagemAntigaContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.imagemAntiga{
+    width: 70%;
+    margin: 10px 0;
+}

@@ -10,11 +10,8 @@ header{
     border-bottom: 1px solid #0005;
     box-shadow: 1px 1px 5px #0005;
 }
-header > a{
+header img{
     height: 50px;
-}
-header > a > img{
-    height: 100%;
 }
 header > input[type=search]{
     border-radius: 5px;
@@ -28,13 +25,18 @@ header > input[type=search]{
 .headerIconsContainer{
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    column-gap: 10px;
+    column-gap: 5px;
     align-items: center;
 }
 .headerIconsContainer a{
     width: 25px;
     height: 25px;
     cursor: pointer;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #0005;
 }
 .headerIconsContainer a:last-child{
     border-radius: 50%;

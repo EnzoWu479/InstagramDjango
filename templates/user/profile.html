@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/header.css'%}">
+    <link rel="stylesheet" href="{% static 'css/section.css'%}">
+    <link rel="stylesheet" href="{% static 'css/profile.css'%}">
+    <link rel="stylesheet" href="{% static 'css/icons.css'%}">
+    <style>
+        *{
+            font-family: "Noto sans", 'sans-serif';
+        }
+    </style>
+</head>
+<body>
+    {% include 'partials/_header.html' %}
+    <section>
+        <main>
+            <div class="up">
+                <div class="profilePhoto">
+                    <img src="{{profile.profile.photo.url}}" alt="">
+                </div>
+                <div class="profileInfos">
+                    <div class="profileInfosLine1">
+                        {{profile.username}}
+                        <a type="button">Editar Perfil</a>
+                    </div>
+                    <div class="profileInfosLine2">
+                        <p>n publicações</p>
+                        <p>n seguidores</p>
+                        <p>n seguindo</p>
+                    </div>
+                    <div class="profileInfosLine3">
+                        Descrição Lorem ipsum dolor, sit amet consectetur adipisicing elit. Praesentium, aut. Possimus deserunt reprehenderit pariatur laboriosam officia repellat, dolore sunt labore provident molestiae facilis, debitis repellendus distinctio libero quaerat quas magnam.
+                    </div>
+                </div>
+            </div>
+            <div class="menuButtons">
+                <a class="active" type="button"><i class="tableCellsIcon"></i>Publicações</a>
+                <a type="button" href=""><i class="saveIcon"></i> Salvos</a>
+            </div>
+            <div class="photos">
+                <a class="itemPhoto" href="">
+                    <img src="img/userIcon1.jpg" alt="">
+                    <div class="likeComments">
+                        <div>
+                            <i class="fa-solid fa-heart"></i> n
+                        </div>
+                        <div>
+                            <i class="fa-solid fa-comment"></i> n
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </main>
+    </section>
+{% endblock %}

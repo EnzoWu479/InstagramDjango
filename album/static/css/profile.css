@@ -1,0 +1,107 @@
+main{
+    width: 80vw;
+}
+.up{
+    min-height: 200px;
+    height: fit-content;
+    display: flex;
+    margin-top: 70px;
+    
+}
+.profilePhoto {
+    margin-left: 70px;
+    margin-right: 70px;
+}
+.profilePhoto img{
+    border-radius: 50%;
+    height: 170px;
+    width: 170px;
+    object-fit: cover;
+}
+.profileInfosLine1{
+    font-size: 22px;
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 200px 100px;
+}
+.profileInfosLine1 a{
+    border: 1px solid #0005;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+.profileInfosLine2{
+    margin-top: 20px;
+    width: 400px;
+    display: flex;
+    justify-content: space-between;
+}
+.profileInfosLine3{
+    margin-top: 20px;
+    width: 400px;
+}
+.menuButtons{
+    border-top: 1px solid #0001;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.menuButtons a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 20px;
+    padding: 10px 10px;
+    opacity: 0.2;
+    cursor: pointer;
+    text-decoration: none;
+}
+.menuButtons svg{
+    width: 10px;
+    height: 10px;
+    margin-right: 5px;
+}
+.active {
+    border-top: 1px solid black;
+    opacity: 2 !important;
+}
+.photos{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    row-gap: 1.6vw;
+}
+.itemPhoto{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.itemPhoto img{
+    width: 25vw;
+    height: 25vw;
+    object-fit: cover;
+}
+.likeComments{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0.8vw;
+    right: 0.8vw;
+    background-color: #0004;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: all ease 0.1s;
+    color: white;
+    font-size: 20px;
+}
+.likeComments div{
+    margin: 10px;
+}
+.likeComments:hover{
+    opacity: 1;
+}

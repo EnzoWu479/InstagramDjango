@@ -15,10 +15,11 @@
     justify-content: space-between;
     background-color: #FFFFFF;
 }
-.publications_item-header button{
-    width: 30px;
-    height: 30px;
-    margin: 0 10px;
+.icons_public a{
+    font-size: 22px;
+    cursor: pointer;
+    margin-right: 5px;
+    color: #0005;
 }
 
 .pub_item-profile{
@@ -97,6 +98,7 @@
 .emojiButton{
     width: 35px;
     height: 35px;
+    font-size: 22px;
     cursor: pointer;
 }
 .comment-publish{

@@ -3,11 +3,11 @@
     <a href="{% url 'index'%}"><img src="{% static 'img/Instagram_logo.png'%}" alt=""></a>
     <input type="search" placeholder="&#xF002;     Pesquisar" style="font-family:Arial, FontAwesome">
     <div class="headerIconsContainer">
-        <a href="{% url 'index'%}"><i class="houseIcon _icon_"></i></a>
-        <a><i class="messengerIcon _icon_"></i></a>
-        <a href="{% url 'publish'%}"><i class="plusSquareIcon _icon_"></i></a>
-        <a><i class="heartIcon _icon_"></i></a>
-        <a href="{% url 'logout' %}"><i class="logOutIcon _icon_"></i></a>
-        <a><img class="profile_photo" src="{{ user.profile.photo.url }}" alt=""></a>
+        <a href="{% url 'index'%}"><i class="fa-solid fa-house"></i></a>
+        <a><i class="fa-brands fa-facebook-messenger"></i></a>
+        <a href="{% url 'publish'%}"><i class="fa-solid fa-square-plus"></i></a>
+        <a><i class="fa-regular fa-heart"></i></a>
+        <a href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket"></i></a>
+        <a href="{% url 'profile' user.id %}"><img class="profile_photo" src="{{ user.profile.photo.url }}" alt=""></a>
     </div>
 </header>

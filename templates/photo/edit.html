@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/header.css'%}">
+    <link rel="stylesheet" href="{% static 'css/section.css'%}">
+    <link rel="stylesheet" href="{% static 'css/publicar.css'%}">
+    <link rel="stylesheet" href="{% static 'css/edit.css'%}">
+    <style>
+        *{
+            font-family: "Noto sans", 'sans-serif';
+        }
+    </style>
+</head>
+<body>
+    {% include 'partials/_header.html' %}
+    <section>
+        <main>
+            <h2>Editar Publicação</h2>
+            <div class="imagemAntigaContainer">
+                <img src="{{photo.photo.url}}" class="imagemAntiga" alt="">
+                Foto
+            </div>
+            
+            <form action="{% url 'updatePhoto' photo.id %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <textarea name="description" cols="30" rows="10" placeholder="Descrição">{{photo.description}}</textarea>
+                <!--<label>
+                    <input type="checkbox" name="private">
+                    Privado
+                </label>-->
+                <div class="editordelete">
+                    <input type="submit" value="Salvar Alterações">
+                    <button id="deletarPost">Deletar Post</button>
+                    <div class="confirm">
+                        <div class="ballon">Tem certeza que deseja deletar esse post? <a href="{% url 'deletePhoto' photo.id %}">Deletar</a></div>
+                        <div class="triangle"></div>
+                        <div class="triangle1"></div>
+                    </div>
+                </div>
+                
+            </form>
+            
+        </main>
+    </section>
+    <script src="{% static 'js/confirmarDelete.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/header.css'%}">
+    <link rel="stylesheet" href="{% static 'css/section.css'%}">
+    <link rel="stylesheet" href="{% static 'css/publicar.css'%}">
+    <style>
+        *{
+            font-family: "Noto sans", 'sans-serif';
+        }
+    </style>
+</head>
+<body>
+    {% include 'partials/_header.html' %}
+    <section>
+        <main>
+            <h2>Publicar</h2>
+            <form action="{% url 'publish' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label>
+                    Selecione a foto que deseja publicar
+                    <input type="file" accept="image/jpeg,image/png,image/heic,image/heif" name='photoPublic'>
+                </label>
+                <textarea 
+                name="description" 
+                id="" cols="30" 
+                rows="10" 
+                placeholder="Descrição"></textarea>
+                <!--<label>
+                    <input type="checkbox" name="private">
+                    Privado
+                </label>-->
+                <input type="submit" value="Publicar">
+            </form>
+        </main>
+    </section>
+    <style>
+        .headerIconsContainer a:nth-child(3){
+            color: black;
+        }
+    </style>
+{% endblock %}
