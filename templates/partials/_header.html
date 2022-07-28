@@ -8,6 +8,6 @@
         <a href="{% url 'publish'%}"><i class="fa-solid fa-square-plus"></i></a>
         <a><i class="fa-regular fa-heart"></i></a>
         <a href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket"></i></a>
-        <a href="{% url 'profile' user.id %}"><img class="profile_photo" src="{{ user.profile.photo.url }}" alt=""></a>
+        <a href="{% url 'profile' user.id %}"><img class="profile_photo" src="{{ user.profile.photo_100.url }}" alt=""></a>
     </div>
 </header>

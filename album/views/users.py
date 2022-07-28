@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.contrib import auth, messages
 from ..validate import emptyValue, equal
 from django.shortcuts import redirect, render, get_object_or_404
+from ..models import Foto
 
 def register(req):
     '''Registra um novo usuário'''
@@ -47,6 +48,8 @@ def register(req):
         )
         profile = user.profile
         profile.photo = infos['photo']
+        profile.photo_100 = infos['photo']
+        profile.photo_256 = infos['photo']
         profile.save()
         messages.success(req, "Usuário criado com sucesso")
         print("user Criado")
@@ -77,6 +80,21 @@ def logout(req):
     return redirect("login")
 
 def profile(req, user_id):
+    if not req.user.is_authenticated:
+        return redirect("login")
     user = get_object_or_404(User, pk=user_id)
-    dados = {'profile': user}
+    fotos = Foto.objects.order_by('-publishData').filter(profile=req.user)
+    dados = {
+        'profile': user,
+        'fotos': fotos
+    }
     return render(req, 'user/profile.html', dados)
+def profilesaved(req):
+    if not req.user.is_authenticated:
+        return redirect("login")
+    fotos = req.user.profile.saved.all
+    dados = {
+        "fotos": fotos
+    }
+    return render(req, 'user/profileSave.html', dados)
+

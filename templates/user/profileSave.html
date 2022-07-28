@@ -1,7 +1,10 @@
-    <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/section.css">
-    <link rel="stylesheet" href="css/profile.css">
-    <link rel="stylesheet" href="css/icons.css">
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/header.css'%}">
+    <link rel="stylesheet" href="{% static 'css/section.css'%}">
+    <link rel="stylesheet" href="{% static 'css/profile.css'%}">
+    <link rel="stylesheet" href="{% static 'css/icons.css'%}">
     <style>
         *{
             font-family: "Noto sans", 'sans-serif';
@@ -9,27 +12,16 @@
     </style>
 </head>
 <body>
-    <header>
-        <img src="img/Instagram_logo.png" alt="">
-        <input type="search" placeholder="&#xF002;     Pesquisar" style="font-family:Arial, FontAwesome">
-        <div class="headerIconsContainer">
-            <button><i class="houseIcon _icon_"></i></button>
-            <button><i class="messengerIcon _icon_"></i></button>
-            <button><i class="plusSquareIcon _icon_"></i></button>
-            <button><i class="heartIcon _icon_"></i></button>
-            <button><i class="logOutIcon _icon_"></i></button>
-            <button><img src="../img/userIcon.jpg" class="profile_photo" alt=""></button>
-        </div>
-    </header>
+    {% include 'partials/_header.html' %}
     <section>
         <main>
             <div class="up">
                 <div class="profilePhoto">
-                    <img src="img/userIcon.jpg" alt="">
+                    <img src="{{user.profile.photo.url}}" alt="">
                 </div>
                 <div class="profileInfos">
                     <div class="profileInfosLine1">
-                        nome
+                        {{user.username}}
                         <button>Editar Perfil</button>
                     </div>
                     <div class="profileInfosLine2">
@@ -43,20 +35,19 @@
                 </div>
             </div>
             <div class="menuButtons">
-                <a type="button" href=""><i class="tableCellsIcon"></i>Publicações</a>
+                <a type="button" href="{% url 'profile' user.id %}"><i class="tableCellsIcon"></i>Publicações</a>
                 <a class="active" type="button"><i class="saveIcon"></i> Salvos</a>
             </div>
 
             <div class="photos">
-                <a class="itemPhoto" href="">
-                    <img src="img/userIcon1.jpg" alt="">
+                {% if fotos %}
+                {% for item in fotos %}
+                <a class="itemPhoto" href="{% url 'photo' item.id %}">
+                    <img src="{{item.photo.url}}" alt="">
                 </a>
-                <a class="itemPhoto" href="">
-                    <img src="img/userIcon1.jpg" alt="">
-                </a>
-                <a class="itemPhoto" href="">
-                    <img src="img/userIcon1.jpg" alt="">
-                </a>
+                {% endfor %}
+                {% endif %}
             </div>
         </main>
     </section>
+{% endblock %}

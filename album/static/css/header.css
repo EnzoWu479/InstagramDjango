@@ -37,6 +37,7 @@ header > input[type=search]{
     justify-content: center;
     align-items: center;
     color: #0005;
+    text-decoration: none;
 }
 .headerIconsContainer a:last-child{
     border-radius: 50%;

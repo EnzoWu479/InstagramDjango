@@ -17,7 +17,7 @@
         <main>
             <div class="up">
                 <div class="profilePhoto">
-                    <img src="{{profile.profile.photo.url}}" alt="">
+                    <img src="{{profile.profile.photo_256.url}}" alt="">
                 </div>
                 <div class="profileInfos">
                     <div class="profileInfosLine1">
@@ -25,7 +25,7 @@
                         <a type="button">Editar Perfil</a>
                     </div>
                     <div class="profileInfosLine2">
-                        <p>n publicações</p>
+                        <p>{{fotos.count}} publicações</p>
                         <p>n seguidores</p>
                         <p>n seguindo</p>
                     </div>
@@ -36,20 +36,24 @@
             </div>
             <div class="menuButtons">
                 <a class="active" type="button"><i class="tableCellsIcon"></i>Publicações</a>
-                <a type="button" href=""><i class="saveIcon"></i> Salvos</a>
+                <a type="button" href="{% url 'profilesaved' %}"><i class="saveIcon"></i> Salvos</a>
             </div>
             <div class="photos">
-                <a class="itemPhoto" href="">
-                    <img src="img/userIcon1.jpg" alt="">
+                {% if fotos %}
+                {% for foto in fotos %}
+                <a class="itemPhoto" href="{% url 'photo' foto.id %}">
+                    <img src="{{foto.photo_512.url}}" alt="">
                     <div class="likeComments">
                         <div>
-                            <i class="fa-solid fa-heart"></i> n
+                            <i class="fa-solid fa-heart"></i> {{foto.likes.count}}
                         </div>
                         <div>
                             <i class="fa-solid fa-comment"></i> n
                         </div>
                     </div>
                 </a>
+                {% endfor %}
+                {% endif %}
             </div>
         </main>
     </section>

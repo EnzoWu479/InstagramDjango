@@ -15,11 +15,11 @@
     justify-content: space-between;
     background-color: #FFFFFF;
 }
-.icons_public a{
+.icons_public button{
     font-size: 22px;
     cursor: pointer;
     margin-right: 5px;
-    color: #0005;
+    color: #000;
 }
 
 .pub_item-profile{
@@ -46,6 +46,10 @@
     display: flex;
     justify-content: space-between;
     margin: 10px;
+}
+.icons_public div{
+    display: flex;
+    justify-content: space-between;
 }
 .icons_public button{
     width: 30px;
@@ -104,4 +108,7 @@
 .comment-publish{
     color: #0999F6;
     cursor: pointer;
+}
+.like-count{
+    margin-left: 10px;
 }
