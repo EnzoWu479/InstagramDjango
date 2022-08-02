@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/header.css'%}">
+    <link rel="stylesheet" href="{% static 'css/publicar.css'%}">
+    <link rel="stylesheet" href="{% static 'css/editarPerfil.css'%}">
+    <link rel="stylesheet" href="{% static 'css/alterarSenha.css'%}">
+</head>
+<body>
+    {% include 'partials/_header.html' %}
+    <section>
+        <main>
+            <div class="left">
+                <div class="left_up">
+                    <a href="{% url 'editarPerfil' %}" class="left_options" type="button">Editar Perfil</a>
+                    <a href="" class="left_options left_options-selected" type="button">Alterar senha</a>
+                </div>
+                {% include 'partials/_footer.html' %}
+            </div>
+            <form class="right">
+                <div class="right_line">
+                    <img class="right_line-img" src="{{user.profile.photo_100.url}}" alt="" >
+                    {{user.username}}
+                </div>
+                <label class="right_label">
+                    Senha antiga:
+                    <input type="password" class="right_input-text">
+                </label>
+                <label class="right_label">
+                    Senha nova:
+                    <input type="password" class="right_input-text">
+                </label>
+                <label class="right_label">
+                    Confirmar senha nova:
+                    <input type="password" class="right_input-text">
+                </label>
+                <div class="right_submit-area">
+                    <button type="submit" class="right_submit-button">Alterar Senha</button>
+                </div>
+            </form>
+        </main>
+    </section>
+{% endblock %}

@@ -3,11 +3,19 @@
     <a href="{% url 'index'%}"><img src="{% static 'img/Instagram_logo.png'%}" alt=""></a>
     <input type="search" placeholder="&#xF002;     Pesquisar" style="font-family:Arial, FontAwesome">
     <div class="headerIconsContainer">
-        <a href="{% url 'index'%}"><i class="fa-solid fa-house"></i></a>
-        <a><i class="fa-brands fa-facebook-messenger"></i></a>
-        <a href="{% url 'publish'%}"><i class="fa-solid fa-square-plus"></i></a>
-        <a><i class="fa-regular fa-heart"></i></a>
-        <a href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket"></i></a>
-        <a href="{% url 'profile' user.id %}"><img class="profile_photo" src="{{ user.profile.photo_100.url }}" alt=""></a>
+        <a href="{% url 'index'%}" class="headerIconsItem">
+            <i class="fa-solid fa-house"></i>
+        </a>
+        <a class="headerIconsItem" href="{% url 'chat' %}">
+            <i class="fa-brands fa-facebook-messenger"></i>
+        </a>
+        <a href="{% url 'publish'%}" class="headerIconsItem">
+            <i class="fa-solid fa-square-plus"></i>
+        </a>
+        <a class="headerIconsItem" href="{% url 'discover'%}">
+            <i class="fa-regular fa-compass"></i>
+        </a>
+        <a href="{% url 'logout' %}" class="headerIconsItem"><i class="fa-solid fa-right-from-bracket"></i></a>
+        <a href="{% url 'profile' user.id %}" class="headerIconsProfile"><img class="profile_photo" src="{{ user.profile.photo_100.url }}" alt=""></a>
     </div>
 </header>

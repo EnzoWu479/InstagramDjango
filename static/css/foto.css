@@ -103,8 +103,8 @@ main{
     display: flex;
     flex-direction: column;
     justify-content: start;
-    min-height: calc(100% - 50px);
-    max-height: calc(100% - 50px);
+    min-height: calc(100% - 120px);
+    max-height: calc(100% - 120px);
 }
 .commentaries{
     overflow-y: scroll;
@@ -113,4 +113,19 @@ main{
 }
 .commentaries::-webkit-scrollbar {
     width: 0px;
+}
+.icons_public{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-top: 1px solid #0002;
+    height: 45px;
+    align-items: center;
+}
+.icons_public div{
+    display: flex;
+}
+.icons_public_button{
+    font-size: 22px;
+    cursor: pointer;
 }

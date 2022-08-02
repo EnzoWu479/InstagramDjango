@@ -29,7 +29,7 @@
                     <div class="infos-header">
                         <div class="infos-profile">
                             <a class="infos-profileContainer" href="">
-                                <img class="profile_photo" src="{{ foto.profile.profile.photo.url }}" alt="">
+                                <img class="profile_photo" src="{{ foto.profile.profile.photo_100.url }}" alt="">
                             </a>
                             <a class="profilename" href="">{{foto.profile}}</a>
                         </div>
@@ -39,7 +39,7 @@
                         <div class="infos_commentary infos_description">
                             <div class="infos-profile">
                                 <a class="infos-profileContainer" href="">
-                                    <img class="profile_photo" src="{{foto.profile.profile.photo.url}}" alt="">
+                                    <img class="profile_photo" src="{{foto.profile.profile.photo_100.url}}" alt="">
                                 </a>
                             </div>
                             <div class="infos-profile_commentary">
@@ -48,25 +48,55 @@
                             </div>
                             
                         </div>
+                        {% if foto.comments %}
+                        {% for item in foto.comments.all %}
                         <div class="infos_commentary">
                             <div class="infos-profile">
-                                <a class="infos-profileContainer" href="">
-                                    <img class="profile_photo" src="{% static 'img/userIcon.jpg'%}" alt="">
+                                <a class="infos-profileContainer" href="{% url 'profile' item.profile.id %}">
+                                    <img class="profile_photo" src="{{item.profile.profile.photo_100.url}}" alt="">
                                 </a>
                             </div>
                             
                             <div class="infos-profile_commentary">
-                                <a class="profilename_commentary" href="">Fulano</a>
-                                <p>Descrição Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio temporibus maxime libero reprehenderit nemo enim cupiditate architecto modi iure laudantium fuga nesciunt quidem quasi corrupti illum accusantium, vel neque excepturi.</p>
+                                <a class="profilename_commentary" href="{% url 'profile' item.profile.id %}">{{item.profile.username}}</a>
+                                <p>{{item.body}}</p>
                             </div>
                         </div>
-                        
+                        {% endfor %}
+                        {% endif %}
                     </div>
-                    
                 </div>
-                <form class="publications_comment">
+                <div class="icons_public">
+                    <div>
+                        <form action="{% url 'likePost' foto.id %}" method='POST' class="likeform" id='{{ item.id }}'>
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.path }}">
+                            <button type="submit" class="icons_public_button" {% if user in foto.likes.all %}style="color:red"{% endif %}>
+                                <i class="fa-heart {% if user in foto.likes.all %} fa-solid {% else %} fa-regular{% endif %}"></i>
+                            </button>
+                        </form>
+                        <form>
+                            <button type="button" class="icons_public_button"><i class="fa-solid fa-comment"></i></button>
+                        </form>
+                        <button type="button" class="icons_public_button"><i class="fa-solid fa-paper-plane"></i></button>
+                    </div>
+                    <form action="{% url 'savePost' foto.id %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                        <button type="submit" class="icons_public_button"><i class= {% if foto in user.profile.saved.all %} "fa-solid fa-bookmark" {% else %} "fa-regular fa-bookmark" {% endif %}></i> </button>
+                    </form>
+                </div>
+                {% if foto.likes.count > 0 %}
+                <p>Curtido por {% with foto.likes.all|first as last_like %}{{last_like}}{% endwith %}
+                    {% if foto.likes.count > 1 %}e outra{% if foto.likes.count > 2 %}s{% endif %}
+                    {{foto.likes.count|add:"-1"}} pessoa{% if foto.likes.count > 2 %}s{% endif %}
+                    {% endif %}</p>
+                {% endif %}
+                <form class="publications_comment" action="{% url 'commentPost' foto.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.path }}">
                     <button class="emojiButton"><i class="fa-solid fa-face-grin"></i></button>
-                    <input type="text" placeholder="Adicione um comentário">
+                    <input type="text" placeholder="Adicione um comentário" name="commentary">
                     <button type="submit" class="comment-publish">Publicar</button>
                 </form>
             </div>

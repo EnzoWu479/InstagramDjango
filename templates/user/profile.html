@@ -4,7 +4,6 @@
     <link rel="stylesheet" href="{% static 'css/header.css'%}">
     <link rel="stylesheet" href="{% static 'css/section.css'%}">
     <link rel="stylesheet" href="{% static 'css/profile.css'%}">
-    <link rel="stylesheet" href="{% static 'css/icons.css'%}">
     <style>
         *{
             font-family: "Noto sans", 'sans-serif';
@@ -22,21 +21,41 @@
                 <div class="profileInfos">
                     <div class="profileInfosLine1">
                         {{profile.username}}
-                        <a type="button">Editar Perfil</a>
+                        {% if profile == user %}
+                        <a type="button" class="profileInfosLine1_button" href="{% url 'editarPerfil' %}">Editar Perfil</a>
+                        {% else %}
+                        <form method="POST" action="{% url 'follow' profile.id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.path }}">
+                            <button type="submit" class="profileInfosLine1_button{% if profile in user.profile.following.all %}2{% else %}1{% endif %}">
+                                {% if profile in user.profile.following.all %}Deixar de seguir{% else %}Seguir{% endif %}
+                            </button>
+                        </form>
+                        {% endif %}
+                        
                     </div>
                     <div class="profileInfosLine2">
                         <p>{{fotos.count}} publicações</p>
-                        <p>n seguidores</p>
-                        <p>n seguindo</p>
+                        <p>{{profile.followers.count}} seguidores</p>
+                        <p>{{profile.profile.following.count}} seguindo</p>
                     </div>
                     <div class="profileInfosLine3">
-                        Descrição Lorem ipsum dolor, sit amet consectetur adipisicing elit. Praesentium, aut. Possimus deserunt reprehenderit pariatur laboriosam officia repellat, dolore sunt labore provident molestiae facilis, debitis repellendus distinctio libero quaerat quas magnam.
+                        {% if user.profile.description.length > 0 %}
+                        {{user.profile.description}}
+                        {% else %}
+                        {% if profile == user %}
+                        Não há descrição disponível. Atualize-a <a href="{% url 'editarPerfil' %}">aqui</a>
+                        {% endif %}
+                        {% endif %}
+                        
                     </div>
                 </div>
             </div>
             <div class="menuButtons">
                 <a class="active" type="button"><i class="tableCellsIcon"></i>Publicações</a>
+                {% if user == profile %}
                 <a type="button" href="{% url 'profilesaved' %}"><i class="saveIcon"></i> Salvos</a>
+                {% endif %}
             </div>
             <div class="photos">
                 {% if fotos %}
@@ -48,7 +67,7 @@
                             <i class="fa-solid fa-heart"></i> {{foto.likes.count}}
                         </div>
                         <div>
-                            <i class="fa-solid fa-comment"></i> n
+                            <i class="fa-solid fa-comment"></i> {{foto.comments.count}}
                         </div>
                     </div>
                 </a>

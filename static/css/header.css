@@ -28,7 +28,7 @@ header > input[type=search]{
     column-gap: 5px;
     align-items: center;
 }
-.headerIconsContainer a{
+.headerIconsItem{
     width: 25px;
     height: 25px;
     cursor: pointer;
@@ -39,7 +39,8 @@ header > input[type=search]{
     color: #0005;
     text-decoration: none;
 }
-.headerIconsContainer a:last-child{
+
+.headerIconsProfile{
     border-radius: 50%;
     width: 40px;
     height: 40px;

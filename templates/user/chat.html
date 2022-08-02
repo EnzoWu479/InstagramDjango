@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/header.css'%}">
+    <link rel="stylesheet" href="{% static 'css/publicar.css'%}">
+    <link rel="stylesheet" href="{% static 'css/chat.css'%}">
+</head>
+<body>
+    {% include 'partials/_header.html' %}
+    <section>
+        <main>
+            <div class="left">
+                <div class="left_up">
+                    username
+                </div>
+                <div class="left_profiles">
+                    {% for conta in contas %}
+                    <a class="left_profile" href="{% url 'chatSomeone' conta.id %}">
+                        <div class="left_profile-container">
+                            <img src="{{conta.profile.photo_100.url}}" alt="" class="userAvatar">
+                            <div class="left_profile-infos">
+                                <span class="profileUsername">{{conta.username}}</span>
+                                <span class="profileLastMessage">ultimamsgkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk</span> 
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="right">
+                <div class="right_icon">
+                    <i class="fa-regular fa-circle right_icon1"></i>
+                    <i class="fa-solid fa-paper-plane right_icon2"></i>
+                </div>
+                <h2 class="right_title">Suas mensagens</h2>
+                <p class="right_p">Envie fotos e mensagens privadas para um amigo ou grupo</p>
+            </div>
+        </main>
+    </section>
+    <style>
+        .headerIconsContainer a:nth-child(2){
+            color: black;
+        }
+    </style>
+{% endblock %}

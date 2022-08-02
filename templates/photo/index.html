@@ -2,11 +2,10 @@
 {% load static %}
 {% block content %}
     <link rel="stylesheet" href="{% static 'css/globalStyles.css' %}">
-    <link rel="stylesheet" href="{% static 'css/icons.css'%}">
     <link rel="stylesheet" href="{% static 'css/header.css' %}">
     <link rel="stylesheet" href="{% static 'css/section.css'%}">
-    <link rel="stylesheet" href="{% static 'css/publications.css'%}">
-    <link rel="stylesheet" href="{% static 'css/right.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/index.css'%}">
 </head>
 <body>
     {% include 'partials/_header.html' %}
@@ -18,54 +17,62 @@
                 <div class="publications_item">
                     <div class="publications_item-header">
                         <div class="pub_item-profile">
-                            <a class="publications_item-profileContainer" href="">
+                            <a class="publications_item-profileContainer" href="{% url 'profile' item.profile.id %}">
                                 <img class="profile_photo" src="{{ item.profile.profile.photo_100.url }}" alt="">
                             </a>
-                            <a class="profilename" href="">{{ item.profile}}</a>
+                            <a class="profilename" href="{% url 'profile' item.profile.id %}">{{ item.profile}}</a>
                         </div>
-                        <button>
+                        <button class="icons_public-EllipsisIcon">
                             <a href="{% url 'edit' item.id %}"><i class="fa-solid fa-ellipsis"></i></a>
                         </button>
                     </div>
-                    <img class="publications_item-img" src="{{item.photo.url}}" alt="">
-                    {% if item.likes.count > 0 %}
-                    <span class="like-count">{{item.likes.count}}</span> like{% if item.likes.count > 1 %}s
-                    {% endif %}
-                    {% endif %}
+                    <a href="{% url 'photo' item.id %}">
+                        <img class="publications_item-img" src="{{item.photo.url}}" alt="">
+                    </a>
                     <div class="icons_public">
-                        <div>
+                        <div class="icons_public-left">
                             <form action="{% url 'likePost' item.id %}" method='POST' class="likeform" id='{{ item.id }}'>
                                 {% csrf_token %}
-                                <button type="submit" {% if user in item.likes.all %}style="color:red"{% endif %}>
+                                <input type="hidden" name="next" value="{{ request.path }}">
+                                <button class="icons_public_button" type="submit" {% if user in item.likes.all %}style="color:red"{% endif %}>
                                     <i class="fa-heart {% if user in item.likes.all %} fa-solid {% else %} fa-regular{% endif %}"></i>
                                 </button>
                             </form>
                             <form>
-                                <button type="button"><i class="fa-solid fa-comment"></i></button>
+                                <button class="icons_public_button" type="button"><i class="fa-solid fa-comment"></i></button>
                             </form>
-                            <button type="button"><i class="fa-solid fa-paper-plane"></i></button>
+                            <button type="button" class="icons_public_button"><i class="fa-solid fa-paper-plane"></i></button>
                         </div>
                         <form action="{% url 'savePost' item.id %}" method="POST">
                             {% csrf_token %}
-                            <button type="submit"><i class= {% if item in user.profile.saved.all %} "fa-solid fa-bookmark" {% else %} "fa-regular fa-bookmark" {% endif %}></i> </button>
+                            <input type="hidden" name="next" value="{{ request.path }}">
+                            <button type="submit" class="icons_public_button"><i class= {% if item in user.profile.saved.all %} "fa-solid fa-bookmark" {% else %} "fa-regular fa-bookmark" {% endif %}></i> </button>
                         </form>
+                        
                     </div>
-
+                    {% if item.likes.count > 0 %}
+                    <p class="curtidoPor">
+                        Curtido por {% with item.likes.all|first as last_like %}<a class="curtidoPor-profile" href="{% url 'profile' last_like.id %}">{{last_like.username}}</a>{% endwith %}
+                        {% if item.likes.count > 1 %}e outra{% if item.likes.count > 2 %}s{% endif %}
+                        {{item.likes.count|add:"-1"}} pessoa{% if item.likes.count > 2 %}s{% endif %}
+                        {% endif %}
+                    </p>
+                    {% endif %}
                     <div class="publications_description">
                         {% if item.description %}
-                        <strong>{{ item.profile }}</strong> {{ item.description }}
+                        <strong>
+                            <a class="publications_description-profile" href="{% url 'profile' item.profile.id %}">{{ item.profile.username }}</a>
+                        </strong> {{ item.description }}
                         {% endif %}
                     </div>
-                    <div class="publications_othercomments">
-                        {% if item.comments %}
-                        {% for comment in item.comments %}
-                        <p><strong>siclano</strong> {{comment}}</p>
-                        {% endfor %}
-                        {% endif %}
-                    </div>
-                    <form class="publications_comment">
+                    {% if item.comments.count > 0 %}
+                    <a href="{% url 'photo' item.id %}" class="verComentarios">Ver todos os {{item.comments.count}} comentários</a>
+                    {% endif %}
+                    <form class="publications_comment" method="POST" action="{% url 'commentPost' item.id %}" >
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.path }}">
                         <button class="emojiButton"><i class="fa-solid fa-face-grin"></i></button>
-                        <input type="text" placeholder="Adicione um comentário">
+                        <input type="text" placeholder="Adicione um comentário" name="commentary">
                         <button type="submit" class="comment-publish">Publicar</button>
                     </form>
                 </div>
@@ -76,7 +83,7 @@
             </div>
         </main>
         <div class="right">
-            <a href="" class="right_your_account">
+            <a href="{% url 'profile' user.id %}" class="right_your_account">
                 <img class="profile_photo" src="{{ user.profile.photo_256.url }}" alt="">
                 <div>
                     <p>{{user.username}}</p>
@@ -84,14 +91,15 @@
             </a>
             <div class="right_suggestionAccount">
                 <h2>Sugestões para você</h2>
-                <a class="right_suggestedAccount" href="">
+                {% for item in sugestions %}
+                <a class="right_suggestedAccount" href="{% url 'profile' item.id %}">
                     <div>
-                        <img src="{% static 'img/userIcon1.jpg'%}" class="profile_photo" alt="">
-                        <p>Ciclano</p>
+                        <img src="{{item.profile.photo_100.url}}" class="profile_photo" alt="">
+                        <p>{{item.username}}</p>
                     </div>
                     <p>Seguir</p>
                 </a>
-                
+                {% endfor %}
             </div>
             {% include 'partials/_footer.html' %}
         </div>

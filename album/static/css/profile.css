@@ -24,13 +24,33 @@ main{
     display: grid;
     grid-template-columns: 200px 100px;
 }
-.profileInfosLine1 a{
+.profileInfosLine1_button {
     border: 1px solid #0005;
     font-size: 14px;
     display: flex;
     justify-content: center;
     align-items: center;
     text-decoration: none;
+    cursor: pointer;
+}
+.profileInfosLine1_button1 {
+    border: none;
+    color: white;
+    background-color: #0095F6;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100px;
+    height: 35px;
+    cursor: pointer;
+}
+.profileInfosLine1_button2 {
+    border: 1px solid #0004;
+    color: #000;
+    background-color: #fff;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 125px;
+    height: 35px;
     cursor: pointer;
 }
 .profileInfosLine2{

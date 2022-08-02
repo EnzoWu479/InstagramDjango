@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.models import User
-from ..models import Foto
+from ..models import Foto, Comment
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
@@ -78,4 +78,17 @@ def like(req, foto_id):
         post.likes.remove(req.user)
     else:
         post.likes.add(req.user)
-    return HttpResponseRedirect(reverse('index'))
+    return HttpResponseRedirect(req.POST['next'])
+
+def comment(req, foto_id):
+    if not req.user.is_authenticated:
+        return redirect("login")
+    if req.method == "POST":
+        post = get_object_or_404(Foto, id=foto_id)
+        comment = Comment.objects.create(
+            foto = post,
+            profile = get_object_or_404(User, pk=req.user.id),
+            body = req.POST['commentary'],
+        )
+        comment.save()
+    return HttpResponseRedirect(req.POST['next'])

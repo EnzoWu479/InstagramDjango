@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/header.css'%}">
+    <link rel="stylesheet" href="{% static 'css/publicar.css'%}">
+    <link rel="stylesheet" href="{% static 'css/editarPerfil.css'%}">
+</head>
+<body>
+    {% include 'partials/_header.html' %}
+    <section>
+        <main>
+            <div class="left">
+                <div class="left_up">
+                    <a href="" class="left_options left_options-selected" type="button">Editar Perfil</a>
+                    <a href="{% url 'alterarSenha' %}" class="left_options" type="button">Alterar senha</a>
+                </div>
+                {% include 'partials/_footer.html' %}
+            </div>
+            <form class="right" action="{% url 'editarPerfil' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="right_line">
+                    <img class="right_line-img" src="{{user.profile.photo_100.url}}" alt="" >
+                    {{user.username}}
+                </div>
+                <label class="right_label">
+                    Alterar foto de Perfil:
+                    <input type="file" name="profilePhoto" accept="image/jpeg,image/png,image/heic,image/heif" >
+                </label>
+                <label class="right_label">
+                    Nome de usuário:
+                    <input type="text" name="username" class="right_input-text" placeholder="Digite o username" value="{{user.username}}">
+                </label>
+                <label class="right_label">
+                    E-mail:
+                    <input type="email" name="email" class="right_input-text" value="{{user.email}}">
+                </label>
+                <label class="right_label">
+                    Descrição:
+                    <textarea class="right_text-area" name="description" cols="30" rows="10" value="{{user.description}}"></textarea>
+                </label>
+                <div class="right_submit-area">
+                    <button type="submit" class="right_submit-button">Salvar</button>
+                    <div class="right_desactivate-area">
+                        <button type="button" class="right_desactivate-button">Desativar minha conta temporariamente</button>
+                        <div class="right_confirm">
+                            <div class="right_confirm-ballon">
+                                Tem certeza que deseja desativar esta conta? 
+                                <a href="" type="button">Desativar</a>
+                            </div>
+                            <div class="right_confirm-triangle"></div>
+                            <div class="right_confirm-triangle1"></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </main>
+    </section>
+    <script src="{% static 'js/confirmarDesativar.js'%}"></script>
+{% endblock %}

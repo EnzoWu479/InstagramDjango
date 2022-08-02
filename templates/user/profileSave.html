@@ -17,20 +17,20 @@
         <main>
             <div class="up">
                 <div class="profilePhoto">
-                    <img src="{{user.profile.photo.url}}" alt="">
+                    <img src="{{user.profile.photo_256.url}}" alt="">
                 </div>
                 <div class="profileInfos">
                     <div class="profileInfosLine1">
                         {{user.username}}
-                        <button>Editar Perfil</button>
+                        <a type="button" class="profileInfosLine1_button">Editar Perfil</a>
                     </div>
                     <div class="profileInfosLine2">
-                        <p>n publicações</p>
-                        <p>n seguidores</p>
-                        <p>n seguindo</p>
+                        <p>{{user.fotos.count}} publicações</p>
+                        <p>{{user.followers.count}} seguidores</p>
+                        <p>{{user.profile.following.count}} seguindo</p>
                     </div>
                     <div class="profileInfosLine3">
-                        Descrição Lorem ipsum dolor, sit amet consectetur adipisicing elit. Praesentium, aut. Possimus deserunt reprehenderit pariatur laboriosam officia repellat, dolore sunt labore provident molestiae facilis, debitis repellendus distinctio libero quaerat quas magnam.
+                        {{user.profile.description}}
                     </div>
                 </div>
             </div>

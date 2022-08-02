@@ -3,7 +3,7 @@ from django.contrib import auth, messages
 from ..validate import emptyValue, equal
 from django.shortcuts import redirect, render, get_object_or_404
 from ..models import Foto
-
+from django.http import HttpResponseRedirect
 def register(req):
     '''Registra um novo usuário'''
     if req.method == "POST":
@@ -83,7 +83,7 @@ def profile(req, user_id):
     if not req.user.is_authenticated:
         return redirect("login")
     user = get_object_or_404(User, pk=user_id)
-    fotos = Foto.objects.order_by('-publishData').filter(profile=req.user)
+    fotos = Foto.objects.order_by('-publishData').filter(profile=user)
     dados = {
         'profile': user,
         'fotos': fotos
@@ -98,3 +98,12 @@ def profilesaved(req):
     }
     return render(req, 'user/profileSave.html', dados)
 
+def ProfileFollow(req, user_id):
+    if not req.user.is_authenticated:
+        return redirect("login")
+    user = get_object_or_404(User, pk=user_id)
+    if user in req.user.profile.following.all():
+        req.user.profile.following.remove(user)
+    else:
+        req.user.profile.following.add(user)
+    return HttpResponseRedirect(req.POST['next'])

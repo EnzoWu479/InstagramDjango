@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/header.css'%}">
+    <link rel="stylesheet" href="{% static 'css/publicar.css'%}">
+    <link rel="stylesheet" href="{% static 'css/chat.css'%}">
+</head>
+<body>
+    {% include 'partials/_header.html' %}
+    <section>
+        <main>
+            <div class="left">
+                <div class="left_up">
+                    username
+                </div>
+                <div class="left_profiles">
+                    {% for conta in contas %}
+                    <a class="left_profile" href="{% url 'chatSomeone' conta.id %}">
+                        <div class="left_profile-container">
+                            <img src="{{conta.profile.photo_100.url}}" alt="" class="userAvatar">
+                            <div class="left_profile-infos">
+                                <span class="profileUsername">{{conta.username}}</span>
+                                <span class="profileLastMessage">ultimamsgkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk</span> 
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="rightChat">
+                <div class="right_header">
+                    <a  href="{% url 'profile' conta.id %}" class="right_headerContainer">
+                        <img src="{{conta.profile.photo_100.url}}" class="right_headerProfile" alt="">
+                        {{conta.username}}
+                    </a>
+                </div>
+                <div class="right_msgs">
+                    {% for msg in messages %}
+                    {% if msg.sender == user %}
+                    <div class="mymsg">
+                        <div class="myballon">
+                            {{msg.message}}
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="hismsg">
+                        <div class="hisballon">
+                            <div class="triangle"></div>
+                            <div class="triangle1"></div>
+                            {{msg.message}}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <form class="right_msgs-inputs" action="{% url 'chatSomeone' conta.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="text" name="msg" class="right_input" placeholder="Mensagem...">
+                    <button type="submit" class="right_submitButton">Enviar</button>
+                </form>
+            </div>
+        </main>
+    </section>
+    <style>
+        .headerIconsContainer a:nth-child(2){
+            color: black;
+        }
+    </style>
+{% endblock %}
