@@ -122,7 +122,7 @@ main{
     margin-right: 10px;
 }
 .right_msgs{
-    height: calc(80vh - 120px);
+    height: calc(80vh - 140px);
     overflow-y: scroll;
 }
 .right_msgs-inputs{
@@ -131,6 +131,7 @@ main{
     position: relative;
     margin: 0;
     margin-left: 5%;
+    margin-top: 10px;
 }
 .right_input{
     width: 100%;

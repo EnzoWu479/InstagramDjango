@@ -16,10 +16,11 @@ urlpatterns = [
     path('profile/alterarSenha', alterarSenha, name="alterarSenha"),
     path('profile/<int:user_id>', profile, name="profile"),
     path('profilesaved', profilesaved, name="profilesaved"),
-    path('like/<int:foto_id>', like, name="likePost"),
+    path('like', like, name="likePost"),
     path('save/<int:foto_id>', save, name="savePost"),
     path('comment/<int:foto_id>', comment, name="commentPost"),
     path('follow/<int:user_id>', ProfileFollow, name="follow"),
     path('direct/inbox/<int:user_id>', chatSomeone, name="chatSomeone"),
     path('direct/inbox', chat, name="chat"),
+    path('direct/getMessage/<int:user_id>', getMessage, name="getMessage")
 ]

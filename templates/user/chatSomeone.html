@@ -11,7 +11,7 @@
         <main>
             <div class="left">
                 <div class="left_up">
-                    username
+                    {{user.username}}
                 </div>
                 <div class="left_profiles">
                     {% for conta in contas %}
@@ -34,7 +34,7 @@
                         {{conta.username}}
                     </a>
                 </div>
-                <div class="right_msgs">
+                <div class="right_msgs" id="msgContainer">
                     {% for msg in messages %}
                     {% if msg.sender == user %}
                     <div class="mymsg">
@@ -53,9 +53,9 @@
                     {% endif %}
                     {% endfor %}
                 </div>
-                <form class="right_msgs-inputs" action="{% url 'chatSomeone' conta.id %}" method="POST">
+                <form class="right_msgs-inputs" id="sendmsg">
                     {% csrf_token %}
-                    <input type="text" name="msg" class="right_input" placeholder="Mensagem...">
+                    <input type="text" id="msgbox" class="right_input" placeholder="Mensagem...">
                     <button type="submit" class="right_submitButton">Enviar</button>
                 </form>
             </div>
@@ -66,4 +66,69 @@
             color: black;
         }
     </style>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            let messages = [];
+            setInterval(function(){
+                $.ajax({
+                    type:'GET',
+                    url: '/like/',
+                    success: function(res){
+                        if (messages.length != res.messages.length) {
+                            messages = res.messages;
+                            
+                            $('#msgContainer').empty();
+                            messages.forEach((msg) => {
+                                let temp;
+                                if (msg.sender_id == {{user.id}}){
+                                    temp = `
+                                    <div class="mymsg">
+                                        <div class="myballon">
+                                            ${msg.message}
+                                        </div>
+                                    </div>
+                                    `;
+                                } else {
+                                    temp = `
+                                    <div class="hismsg">
+                                        <div class="hisballon">
+                                            <div class="triangle"></div>
+                                            <div class="triangle1"></div>
+                                            ${msg.message}
+                                        </div>
+                                    </div>
+                                    `;
+                                };
+                                $('#msgContainer').append(temp);
+                            })
+                            $('#msgContainer').scrollTop($('#msgContainer').prop("scrollHeight"));
+                        }
+                        
+                    },
+                    error: function(res){
+                        console.log('ERROR');
+                    }
+                })
+            }, 1000)
+        });
+
+        //ajax
+        $(document).on('submit', '.likeform', function(e){
+            e.preventDefault();
+            $.ajax({
+                type:'POST',
+                url: '/direct/inbox/{{conta.id}}',
+                data: {
+                    message: $('#msgbox').val(),
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                },
+                success: function(data){
+                    console.log(data);
+                    
+                    $('#msgContainer').scrollTop($('#msgContainer').prop("scrollHeight"));
+                }
+            });
+            document.getElementById("msgbox").value = "";
+        })
+    </script>
 {% endblock %}

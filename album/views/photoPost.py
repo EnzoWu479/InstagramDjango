@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.models import User
 from ..models import Foto, Comment
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 
 def publish(req):
@@ -70,15 +70,15 @@ def deletePhoto(req, foto_id):
     photo.delete()
     return redirect('index')
 
-def like(req, foto_id):
+def like(req):
     if not req.user.is_authenticated:
         return redirect("login")
-    post = get_object_or_404(Foto, id=foto_id)
+    post = get_object_or_404(Foto, id=req.POST['itemid'])
     if req.user in post.likes.all():
         post.likes.remove(req.user)
     else:
         post.likes.add(req.user)
-    return HttpResponseRedirect(req.POST['next'])
+    return HttpResponse('Mensagem enviada')
 
 def comment(req, foto_id):
     if not req.user.is_authenticated:
