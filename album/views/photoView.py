@@ -1,7 +1,6 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from ..models import Foto
-from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.http import HttpResponse
 from django.db.models import Q
 from django.contrib.auth.models import User
 from random import sample
@@ -43,13 +42,4 @@ def photo(req, foto_id):
     }
     return render(req, 'photo/photo.html', dados)
 
-def save(req, foto_id):
-    """Salva um post em um perfil"""
-    if not req.user.is_authenticated:
-        return redirect("login")
-    foto = get_object_or_404(Foto, pk=foto_id)
-    if foto in req.user.profile.saved.all():
-        req.user.profile.saved.remove(foto)
-    else:
-        req.user.profile.saved.add(foto)
-    return HttpResponseRedirect(req.POST['next'])
+

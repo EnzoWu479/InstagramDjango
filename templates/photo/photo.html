@@ -6,7 +6,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100;400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/icons.css'%}">
     <link rel="stylesheet" href="{% static 'css/header.css'%}">
     <link rel="stylesheet" href="{% static 'css/section.css'%}">
     <link rel="stylesheet" href="{% static 'css/foto.css'%}">
@@ -28,10 +27,10 @@
                     
                     <div class="infos-header">
                         <div class="infos-profile">
-                            <a class="infos-profileContainer" href="">
+                            <a class="infos-profileContainer" href="{% url 'profile' foto.profile.id %}">
                                 <img class="profile_photo" src="{{ foto.profile.profile.photo_100.url }}" alt="">
                             </a>
-                            <a class="profilename" href="">{{foto.profile}}</a>
+                            <a class="profilename" href="{% url 'profile' foto.profile.id %}">{{foto.profile}}</a>
                         </div>
                         <button><i class="ellipsisIcon _icon_"></i></button>
                     </div>
@@ -68,23 +67,34 @@
                 </div>
                 <div class="icons_public">
                     <div>
-                        <form action="{% url 'likePost' foto.id %}" method='POST' class="likeform" id='{{ item.id }}'>
+                        <!--Like Post-->
+                        <form class="likeform" id='likeform'>
                             {% csrf_token %}
-                            <input type="hidden" name="next" value="{{ request.path }}">
-                            <button type="submit" class="icons_public_button" {% if user in foto.likes.all %}style="color:red"{% endif %}>
-                                <i class="fa-heart {% if user in foto.likes.all %} fa-solid {% else %} fa-regular{% endif %}"></i>
+                            <button class="icons_public_button" type="submit" {% if user in foto.likes.all %}style="color:red"{% endif %}>
+                                <i id="likebtn" class="fa-heart {% if user in foto.likes.all %} fa-solid {% else %} fa-regular{% endif %}"></i>
                             </button>
                         </form>
-                        <form>
-                            <button type="button" class="icons_public_button"><i class="fa-solid fa-comment"></i></button>
-                        </form>
+                        <!--End Like Post-->
+
+                        <!--Focus Comment Input-->
+                        <button type="button" class="icons_public_button" 
+                            onclick="$('input#inputComment').focus()">
+                            <i class="fa-solid fa-comment"></i>
+                        </button>
+                        <!--End Focus Comment Input-->
+
                         <button type="button" class="icons_public_button"><i class="fa-solid fa-paper-plane"></i></button>
                     </div>
-                    <form action="{% url 'savePost' foto.id %}" method="POST">
+
+                    <!--Save Post-->
+                    <form id="savePost">
                         {% csrf_token %}
-                        <input type="hidden" name="next" value="{{ request.path }}">
-                        <button type="submit" class="icons_public_button"><i class= {% if foto in user.profile.saved.all %} "fa-solid fa-bookmark" {% else %} "fa-regular fa-bookmark" {% endif %}></i> </button>
+                        <button type="submit" class="icons_public_button">
+                            <i id="savebtn" class= "fa-bookmark {% if foto in user.profile.saved.all %} fa-solid{% else %} fa-regular{% endif %}"></i> 
+                        </button>
                     </form>
+                    <!--End Save Post-->
+
                 </div>
                 {% if foto.likes.count > 0 %}
                 <p>Curtido por {% with foto.likes.all|first as last_like %}{{last_like}}{% endwith %}
@@ -92,14 +102,85 @@
                     {{foto.likes.count|add:"-1"}} pessoa{% if foto.likes.count > 2 %}s{% endif %}
                     {% endif %}</p>
                 {% endif %}
-                <form class="publications_comment" action="{% url 'commentPost' foto.id %}" method="POST">
+                <form class="publications_comment" id="makeacomment" name="{{foto.id}}">
                     {% csrf_token %}
-                    <input type="hidden" name="next" value="{{ request.path }}">
                     <button class="emojiButton"><i class="fa-solid fa-face-grin"></i></button>
-                    <input type="text" placeholder="Adicione um comentário" name="commentary">
+                    <input type="text" placeholder="Adicione um comentário" id="inputComment">
                     <button type="submit" class="comment-publish">Publicar</button>
                 </form>
             </div>
         </main>
     </section>
+    <script>
+        $(document).on('submit', '#savePost', function(e){
+            e.preventDefault();
+            $.ajax({
+                type:'POST',
+                url: '/save/' + {{foto.id}},
+                data: {
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                },
+                success: function(data){
+                    console.log(data);
+                    if ($(`i#savebtn`).hasClass('fa-regular')){
+                        $(`i#savebtn`).removeClass('fa-regular').addClass('fa-solid')
+                    } else {
+                        $(`i#savebtn`).removeClass('fa-solid').addClass('fa-regular')
+                    }
+                }
+            });
+        })
+        $(document).on('submit', '#likeform', function(e){
+            e.preventDefault();
+            $.ajax({
+                type:'POST',
+                url: '/like/' + {{foto.id}},
+                data: {
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                },
+                success: function(data){
+                    console.log(data);
+                    if ($(`i#likebtn`).hasClass('fa-regular')){
+                        $(`i#likebtn`).removeClass('fa-regular').addClass('fa-solid')
+                        $(`i#likebtn`).css('color', 'red')
+                    } else {
+                        $(`i#likebtn`).removeClass('fa-solid').addClass('fa-regular')
+                        $(`i#likebtn`).css('color', 'black')
+                    }
+                }
+            });
+        })
+        $(document).on('submit', '#makeacomment', function(e){
+            e.preventDefault();
+            let comment = $(`#inputComment`).val()
+            $.ajax({
+                type:'POST',
+                url: '/comment/' + {{foto.id}},
+                data: {
+                    commentary: comment,
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                },
+                success: function(data){
+                    console.log(data);
+
+                    $(`.commentaries`).append(
+                        `<div class="infos_commentary">
+                            <div class="infos-profile">
+                                <a class="infos-profileContainer" href="{% url 'profile' user.id %}">
+                                    <img class="profile_photo" src="{{user.profile.photo_100.url}}" alt="">
+                                </a>
+                            </div>
+                            
+                            <div class="infos-profile_commentary">
+                                <a class="profilename_commentary" href="{% url 'profile' user.id %}">{{user.username}}</a>
+                                <p>${comment}</p>
+                            </div>
+                        </div>`
+                    );
+                    $('.commentaries').scrollTop($('.commentaries').prop("scrollHeight"));
+                }
+            });
+            $(`#inputComment`).val("")
+        })
+    </script>
 {% endblock  %}

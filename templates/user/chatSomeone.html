@@ -72,7 +72,7 @@
             setInterval(function(){
                 $.ajax({
                     type:'GET',
-                    url: '/like/',
+                    url: '/direct/getMessage/{{conta.id}}',
                     success: function(res){
                         if (messages.length != res.messages.length) {
                             messages = res.messages;
@@ -113,7 +113,7 @@
         });
 
         //ajax
-        $(document).on('submit', '.likeform', function(e){
+        $(document).on('submit', '#sendmsg', function(e){
             e.preventDefault();
             $.ajax({
                 type:'POST',

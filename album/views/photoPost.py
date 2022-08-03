@@ -70,25 +70,35 @@ def deletePhoto(req, foto_id):
     photo.delete()
     return redirect('index')
 
-def like(req):
+def save(req, foto_id):
+    """Salva um post em um perfil"""
     if not req.user.is_authenticated:
         return redirect("login")
-    post = get_object_or_404(Foto, id=req.POST['itemid'])
+    foto = get_object_or_404(Foto, pk=foto_id)
+    if foto in req.user.profile.saved.all():
+        req.user.profile.saved.remove(foto)
+    else:
+        req.user.profile.saved.add(foto)
+    return HttpResponse('Save enviado')
+
+def like(req, item_id):
+    if not req.user.is_authenticated:
+        return redirect("login")
+    post = get_object_or_404(Foto, id=item_id)
     if req.user in post.likes.all():
         post.likes.remove(req.user)
     else:
         post.likes.add(req.user)
-    return HttpResponse('Mensagem enviada')
+    return HttpResponse('Like enviado')
 
 def comment(req, foto_id):
     if not req.user.is_authenticated:
         return redirect("login")
-    if req.method == "POST":
-        post = get_object_or_404(Foto, id=foto_id)
-        comment = Comment.objects.create(
-            foto = post,
-            profile = get_object_or_404(User, pk=req.user.id),
-            body = req.POST['commentary'],
-        )
-        comment.save()
-    return HttpResponseRedirect(req.POST['next'])
+    post = get_object_or_404(Foto, id=foto_id)
+    comment = Comment.objects.create(
+        foto = post,
+        profile = get_object_or_404(User, pk=req.user.id),
+        body = req.POST['commentary'],
+    )
+    comment.save()
+    return HttpResponse('Comentário enviado')

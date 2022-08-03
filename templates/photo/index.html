@@ -31,27 +31,35 @@
                     </a>
                     <div class="icons_public">
                         <div class="icons_public-left">
-                            <form class="likeform" id='{{item.id}}'>
+
+                            <!--Like Post-->
+                            <form class="likeform" id='likeform' name="{{item.id}}">
                                 {% csrf_token %}
-                                <input type="hidden" name="next" value="{{ request.path }}">
-                                <input type="hidden" name="itemid" value="{{ item.id }}">
-                                
                                 <button class="icons_public_button" type="submit" {% if user in item.likes.all %}style="color:red"{% endif %}>
-                                    <i class="fa-heart {% if user in item.likes.all %} fa-solid {% else %} fa-regular{% endif %}"></i>
+                                    <i id="likebtn{{item.id}}" class="fa-heart {% if user in item.likes.all %} fa-solid {% else %} fa-regular{% endif %}"></i>
                                 </button>
                             </form>
-                            <form>
-                                <button class="icons_public_button" type="button"><i class="fa-solid fa-comment"></i></button>
-                            </form>
+                            <!--End Like Post-->
+
+                            <button class="icons_public_button" type="button" 
+                            onclick="$('input#comment{{item.id}}').focus()">
+                                <i class="fa-solid fa-comment"></i>
+                            </button>
+                            
                             <button type="button" class="icons_public_button"><i class="fa-solid fa-paper-plane"></i></button>
                         </div>
-                        <form action="{% url 'savePost' item.id %}" method="POST">
+
+                        <!--Save Post-->
+                        <form id="savePost" name="{{item.id}}">
                             {% csrf_token %}
-                            <input type="hidden" name="next" value="{{ request.path }}">
-                            <button type="submit" class="icons_public_button"><i class= {% if item in user.profile.saved.all %} "fa-solid fa-bookmark" {% else %} "fa-regular fa-bookmark" {% endif %}></i> </button>
+                            <button type="submit" class="icons_public_button">
+                                <i id="savebtn{{item.id}}" class= "fa-bookmark {% if item in user.profile.saved.all %} fa-solid{% else %} fa-regular{% endif %}"></i> 
+                            </button>
                         </form>
-                        
+                        <!--End Save Post-->
                     </div>
+
+                    <!--Like Marker Post-->
                     {% if item.likes.count > 0 %}
                     <p class="curtidoPor">
                         Curtido por {% with item.likes.all|first as last_like %}<a class="curtidoPor-profile" href="{% url 'profile' last_like.id %}">{{last_like.username}}</a>{% endwith %}
@@ -60,6 +68,8 @@
                         {% endif %}
                     </p>
                     {% endif %}
+                    <!--End Like Marker Post-->
+
                     <div class="publications_description">
                         {% if item.description %}
                         <strong>
@@ -67,16 +77,24 @@
                         </strong> {{ item.description }}
                         {% endif %}
                     </div>
+
+                    <div id="mycomments{{item.id}}" class="publications_othercomments"></div>
+
+
+                    <!--Like Counter Post-->
                     {% if item.comments.count > 0 %}
                     <a href="{% url 'photo' item.id %}" class="verComentarios">Ver todos os {{item.comments.count}} comentários</a>
                     {% endif %}
-                    <form class="publications_comment" method="POST" action="{% url 'commentPost' item.id %}" >
+                    <!--End Like Counter Post--> 
+
+                    <!--Comment Post-->
+                    <form class="publications_comment" id="makeacomment" name="{{item.id}}">
                         {% csrf_token %}
-                        <input type="hidden" name="next" value="{{ request.path }}">
                         <button class="emojiButton"><i class="fa-solid fa-face-grin"></i></button>
-                        <input type="text" placeholder="Adicione um comentário" name="commentary">
+                        <input type="text" placeholder="Adicione um comentário" name="commentary" id="comment{{item.id}}">
                         <button type="submit" class="comment-publish">Publicar</button>
                     </form>
+                    <!--End Comment Post-->
                 </div>
                 {% endfor %}
                 {% else %}
@@ -112,67 +130,65 @@
         }
     </style>
     <script type="text/javascript">
-        $(document).ready(function(){
-            setInterval(function(){
-                $.ajax({
-                    type:'GET',
-                    url: '/direct/getMessage/{{conta.id}}',
-                    success: function(res){
-                        if (messages.length != res.messages.length) {
-                            messages = res.messages;
-                            
-                            $('#msgContainer').empty();
-                            messages.forEach((msg) => {
-                                let temp;
-                                if (msg.sender_id == {{user.id}}){
-                                    temp = `
-                                    <div class="mymsg">
-                                        <div class="myballon">
-                                            ${msg.message}
-                                        </div>
-                                    </div>
-                                    `;
-                                } else {
-                                    temp = `
-                                    <div class="hismsg">
-                                        <div class="hisballon">
-                                            <div class="triangle"></div>
-                                            <div class="triangle1"></div>
-                                            ${msg.message}
-                                        </div>
-                                    </div>
-                                    `;
-                                };
-                                $('#msgContainer').append(temp);
-                            })
-                            $('#msgContainer').scrollTop($('#msgContainer').prop("scrollHeight"));
-                        }
-                        
-                    },
-                    error: function(res){
-                        console.log('ERROR');
-                    }
-                })
-            }, 1000)
-        });
-
         //ajax
-        $(document).on('submit', '.likeform', function(e){
+        $(document).on('submit', '#likeform', function(e){
             e.preventDefault();
             $.ajax({
                 type:'POST',
-                url: '/direct/inbox/{{conta.id}}',
+                url: '/like/' + e.target.name,
                 data: {
-                    message: $('#msgbox').val(),
                     csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
                 },
                 success: function(data){
                     console.log(data);
-                    
-                    $('#msgContainer').scrollTop($('#msgContainer').prop("scrollHeight"));
+                    if ($(`i#likebtn${e.target.name}`).hasClass('fa-regular')){
+                        $(`i#likebtn${e.target.name}`).removeClass('fa-regular').addClass('fa-solid')
+                        $(`i#likebtn${e.target.name}`).css('color', 'red')
+                    } else {
+                        $(`i#likebtn${e.target.name}`).removeClass('fa-solid').addClass('fa-regular')
+                        $(`i#likebtn${e.target.name}`).css('color', 'black')
+                    }
                 }
             });
-            document.getElementById("msgbox").value = "";
+        })
+
+        $(document).on('submit', '#savePost', function(e){
+            e.preventDefault();
+            $.ajax({
+                type:'POST',
+                url: '/save/' + e.target.name,
+                data: {
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                },
+                success: function(data){
+                    console.log(data);
+                    if ($(`i#savebtn${e.target.name}`).hasClass('fa-regular')){
+                        $(`i#savebtn${e.target.name}`).removeClass('fa-regular').addClass('fa-solid')
+                    } else {
+                        $(`i#savebtn${e.target.name}`).removeClass('fa-solid').addClass('fa-regular')
+                    }
+                }
+            });
+        })
+        $(document).on('submit', '#makeacomment', function(e){
+            e.preventDefault();
+            let comment = $(`#comment${e.target.name}`).val()
+            $.ajax({
+                type:'POST',
+                url: '/comment/' + e.target.name,
+                data: {
+                    commentary: comment,
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                },
+                success: function(data){
+                    console.log(data);
+
+                    $(`#mycomments${e.target.name}`).append(
+                        '<p><strong>{{user.username}}</strong>' + comment + '</p>'
+                    )
+                }
+            });
+            $(`#comment${e.target.name}`).val("")
         })
     </script>
 {% endblock %}
