@@ -136,8 +136,12 @@ MEDIA_URL = '/media/'
 
 from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
-    messages.ERROR: '#F8D7DA',
-    messages.SUCCESS: "#D4EDDA"
+    messages.ERROR: '''
+    background: linear-gradient(to right, transparent 0%,  #F8D7DA 10%, #F8D7DA 80%, transparent 100%); 
+    color: #9D1C24;''',
+    messages.SUCCESS: '''
+    background: linear-gradient(to right, transparent 0%,  #D4EDDA 10%, #D4EDDA 80%, transparent 100%); 
+    color: #155776;'''
 }
 
 DJANGORESIZED_DEFAULT_SIZE = [1920, 1080]

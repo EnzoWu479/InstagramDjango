@@ -11,7 +11,7 @@
         <main>
             <div class="left">
                 <div class="left_up">
-                    username
+                    {{user.username}}
                 </div>
                 <div class="left_profiles">
                     {% for conta in contas %}
@@ -20,7 +20,6 @@
                             <img src="{{conta.profile.photo_100.url}}" alt="" class="userAvatar">
                             <div class="left_profile-infos">
                                 <span class="profileUsername">{{conta.username}}</span>
-                                <span class="profileLastMessage">ultimamsgkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk</span> 
                             </div>
                         </div>
                     </a>

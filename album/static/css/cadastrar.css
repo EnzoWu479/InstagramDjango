@@ -51,6 +51,16 @@ section{
     align-items: center;
     height: 45px;
 }
+.containerInput input[type=file]{
+    border: 1px solid #0005;
+    height: 30px;
+    width: 60%;
+    margin-left: 5px;
+    border-radius: 5px;
+}
+.containerInput input[type=file]::file-selector-button{
+    display: none;
+}
 
 .containerInput input[type=submit]{
     background-color: #B2DFFC;

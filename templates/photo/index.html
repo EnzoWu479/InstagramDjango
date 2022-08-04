@@ -13,92 +13,11 @@
         <main>
             <div class="publications">
                 {% if fotos %}
-                {% for item in fotos %}
-                <div class="publications_item">
-                    <div class="publications_item-header">
-                        <div class="pub_item-profile">
-                            <a class="publications_item-profileContainer" href="{% url 'profile' item.profile.id %}">
-                                <img class="profile_photo" src="{{ item.profile.profile.photo_100.url }}" alt="">
-                            </a>
-                            <a class="profilename" href="{% url 'profile' item.profile.id %}">{{ item.profile}}</a>
-                        </div>
-                        <button class="icons_public-EllipsisIcon">
-                            <a href="{% url 'edit' item.id %}"><i class="fa-solid fa-ellipsis"></i></a>
-                        </button>
-                    </div>
-                    <a href="{% url 'photo' item.id %}">
-                        <img class="publications_item-img" src="{{item.photo.url}}" alt="">
-                    </a>
-                    <div class="icons_public">
-                        <div class="icons_public-left">
-
-                            <!--Like Post-->
-                            <form class="likeform" id='likeform' name="{{item.id}}">
-                                {% csrf_token %}
-                                <button class="icons_public_button" type="submit" {% if user in item.likes.all %}style="color:red"{% endif %}>
-                                    <i id="likebtn{{item.id}}" class="fa-heart {% if user in item.likes.all %} fa-solid {% else %} fa-regular{% endif %}"></i>
-                                </button>
-                            </form>
-                            <!--End Like Post-->
-
-                            <button class="icons_public_button" type="button" 
-                            onclick="$('input#comment{{item.id}}').focus()">
-                                <i class="fa-solid fa-comment"></i>
-                            </button>
-                            
-                            <button type="button" class="icons_public_button"><i class="fa-solid fa-paper-plane"></i></button>
-                        </div>
-
-                        <!--Save Post-->
-                        <form id="savePost" name="{{item.id}}">
-                            {% csrf_token %}
-                            <button type="submit" class="icons_public_button">
-                                <i id="savebtn{{item.id}}" class= "fa-bookmark {% if item in user.profile.saved.all %} fa-solid{% else %} fa-regular{% endif %}"></i> 
-                            </button>
-                        </form>
-                        <!--End Save Post-->
-                    </div>
-
-                    <!--Like Marker Post-->
-                    {% if item.likes.count > 0 %}
-                    <p class="curtidoPor">
-                        Curtido por {% with item.likes.all|first as last_like %}<a class="curtidoPor-profile" href="{% url 'profile' last_like.id %}">{{last_like.username}}</a>{% endwith %}
-                        {% if item.likes.count > 1 %}e outra{% if item.likes.count > 2 %}s{% endif %}
-                        {{item.likes.count|add:"-1"}} pessoa{% if item.likes.count > 2 %}s{% endif %}
-                        {% endif %}
-                    </p>
-                    {% endif %}
-                    <!--End Like Marker Post-->
-
-                    <div class="publications_description">
-                        {% if item.description %}
-                        <strong>
-                            <a class="publications_description-profile" href="{% url 'profile' item.profile.id %}">{{ item.profile.username }}</a>
-                        </strong> {{ item.description }}
-                        {% endif %}
-                    </div>
-
-                    <div id="mycomments{{item.id}}" class="publications_othercomments"></div>
-
-
-                    <!--Like Counter Post-->
-                    {% if item.comments.count > 0 %}
-                    <a href="{% url 'photo' item.id %}" class="verComentarios">Ver todos os {{item.comments.count}} comentários</a>
-                    {% endif %}
-                    <!--End Like Counter Post--> 
-
-                    <!--Comment Post-->
-                    <form class="publications_comment" id="makeacomment" name="{{item.id}}">
-                        {% csrf_token %}
-                        <button class="emojiButton"><i class="fa-solid fa-face-grin"></i></button>
-                        <input type="text" placeholder="Adicione um comentário" name="commentary" id="comment{{item.id}}">
-                        <button type="submit" class="comment-publish">Publicar</button>
-                    </form>
-                    <!--End Comment Post-->
-                </div>
-                {% endfor %}
+                    {% for item in fotos %}
+                        {% include 'partials/_publication.html' %}
+                    {% endfor %}
                 {% else %}
-                
+                    Sem posts? Experimente ir no <a href="{% url 'discover' %}">descubra</a>
                 {% endif %}
             </div>
         </main>
@@ -117,18 +36,19 @@
                         <img src="{{item.profile.photo_100.url}}" class="profile_photo" alt="">
                         <p>{{item.username}}</p>
                     </div>
-                    <p>Seguir</p>
+                    <p>
+                        {% if item in user.profile.following.all %}
+                        Seguindo
+                        {% else %}
+                        Seguir
+                        {% endif %}
+                    </p>
                 </a>
                 {% endfor %}
             </div>
             {% include 'partials/_footer.html' %}
         </div>
     </section>
-    <style>
-        .headerIconsContainer a:nth-child(1){
-            color: black;
-        }
-    </style>
     <script type="text/javascript">
         //ajax
         $(document).on('submit', '#likeform', function(e){
@@ -141,12 +61,17 @@
                 },
                 success: function(data){
                     console.log(data);
+                    
                     if ($(`i#likebtn${e.target.name}`).hasClass('fa-regular')){
-                        $(`i#likebtn${e.target.name}`).removeClass('fa-regular').addClass('fa-solid')
-                        $(`i#likebtn${e.target.name}`).css('color', 'red')
+                        $(`i#likebtn${e.target.name}`)
+                        .removeClass('fa-regular')
+                        .addClass('fa-solid')
+                        .css('color', 'red')
                     } else {
-                        $(`i#likebtn${e.target.name}`).removeClass('fa-solid').addClass('fa-regular')
-                        $(`i#likebtn${e.target.name}`).css('color', 'black')
+                        $(`i#likebtn${e.target.name}`)
+                        .removeClass('fa-solid')
+                        .addClass('fa-regular')
+                        .css('color', 'black')
                     }
                 }
             });
@@ -185,10 +110,13 @@
 
                     $(`#mycomments${e.target.name}`).append(
                         '<p><strong>{{user.username}}</strong>' + comment + '</p>'
-                    )
+                    ).css('margin-bottom', '5px')
+                    $(`#comment${e.target.name}`).val('')
+                    $(`#countComments${e.target.name}`)
+                    .text((parseInt($(`#countComments${e.target.name}`).text()) + 1))
                 }
             });
-            $(`#comment${e.target.name}`).val("")
+            
         })
     </script>
 {% endblock %}

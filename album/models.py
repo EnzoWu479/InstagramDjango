@@ -20,16 +20,12 @@ class Comment(models.Model):
     profile = models.ForeignKey(User, on_delete=models.CASCADE, default="")
     body = models.CharField(max_length=255, default="")
 
-class Answers(models.Model):
-    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name="answers", blank=True)
-    answers = models.ForeignKey('self', on_delete=models.CASCADE, related_name="answerofanswer", blank=True)
-    body = models.CharField(max_length=255, default="")
-
 class Message(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sended', default="")
     receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received', default="")
     message = models.CharField(max_length=255, default="")
     dataTime = models.DateTimeField(auto_now=True)
+    seen = models.BooleanField(default=False)
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")

@@ -15,29 +15,29 @@ def register(req):
             'photo':        req.FILES['profilePhoto'],
         }
         if emptyValue(infos['email']):
-            messages.error(req, "Preencha o campo do email")
+            messages.error(req, "ERROR: Preencha o campo do email")
             return redirect("register")
         
         if emptyValue(infos['username']):
-            messages.error(req, "Preencha o campo de username")
+            messages.error(req, "ERROR: Preencha o campo de username")
             return redirect("register")
         
         if emptyValue(infos['password']):
-            messages.error(req, "Preencha o campo da senha")
+            messages.error(req, "ERROR: Preencha o campo da senha")
             return redirect("register")
 
         if not equal(infos['password'], infos['password1']):
-            messages.error(req, "As senhas não são iguais")
+            messages.error(req, "ERROR: As senhas não são iguais")
             print("As senhas não são iguais")
             return redirect("register")
         
         if User.objects.filter(email=infos['email']).exists():
-            messages.error(req, "Email já registrado")
+            messages.error(req, "ERROR: Email já registrado")
             print("Email já registrado")
             return redirect("register")
         
         if User.objects.filter(username=infos['username']).exists():
-            messages.error(req, "Nome de usuário já registrado")
+            messages.error(req, "ERROR: Nome de usuário já registrado")
             print("Nome de usuário já registrado")
             return redirect("register")
 
@@ -72,6 +72,10 @@ def login(req):
             if user is not None:
                 auth.login(req, user)
                 return redirect('index')
+            else:
+                messages.error(req, "Email ou senha inválidos")
+        else:
+            messages.error(req, "Email ou senha inválidos")
     return render(req, 'user/login.html')
 
 def logout(req):

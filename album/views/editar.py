@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.models import User
 from ..validate import emptyValue
+from django.contrib import messages
 def editarPerfil(req):
     if not req.user.is_authenticated:
         return redirect("login")
@@ -27,5 +28,12 @@ def alterarSenha(req):
     if not req.user.is_authenticated:
         return redirect("login")
     if req.method == "POST":
-        pass
+        user = get_object_or_404(User, id=req.user.id)
+        oldPassword = req.POST['oldPassword']
+        newpassword = req.POST['newPassword']
+        if user.check_password(oldPassword):
+            user.set_password(newpassword)
+            messages.success(req, 'Senha modificada com sucesso!')
+        else:
+            messages.error(req, 'Senha antiga incorreta.')
     return render(req, 'editarPerfil/alterarSenha.html')

@@ -8,7 +8,8 @@ from django.http import HttpResponse, JsonResponse
 def chat(req):
     if not req.user.is_authenticated:
         return redirect("login")
-    profiles = User.objects.filter(followers__in=[req.user.id])
+    myaccount = get_object_or_404(User, pk=req.user.id)
+    profiles = User.objects.filter(Q(followers__in=[req.user.id]) | Q(sended__receiver=myaccount) | Q(received__sender=myaccount)).distinct()
     dados = {
         'contas': profiles
     }
@@ -30,7 +31,7 @@ def chatSomeone(req, user_id):
         )
         message.save()
         return HttpResponse('Mensagem enviada')
-    profiles = User.objects.filter(followers__in=[req.user.id])
+    profiles = User.objects.filter(Q(followers__in=[req.user.id]) | Q(sended__receiver=myaccount) | Q(received__sender=myaccount)).distinct()
     conta = get_object_or_404(User, pk=user_id)
     dados = {
         'contas': profiles,

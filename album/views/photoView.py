@@ -28,10 +28,16 @@ def discover(req):
     if not req.user.is_authenticated:
         return redirect("login")
     photos = Foto.objects.order_by('-publishData')
+    followed = User.objects.exclude(pk=req.user.id).filter(followers__in=[req.user.id])
+    suggestUsers = User.objects.exclude(pk=req.user.id).exclude(followers__in=[req.user.id])
     dados = {
-        'fotos': photos
+        'fotos': photos,
+        'suggestUsers': suggestUsers,
+        'followed': followed,
+
     }
     return render(req, 'photo/discover.html', dados)
+    
 def photo(req, foto_id):
     '''Página de vizualização de foto individual'''
     if not req.user.is_authenticated:

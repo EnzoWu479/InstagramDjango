@@ -20,7 +20,7 @@
                             <img src="{{conta.profile.photo_100.url}}" alt="" class="userAvatar">
                             <div class="left_profile-infos">
                                 <span class="profileUsername">{{conta.username}}</span>
-                                <span class="profileLastMessage">ultimamsgkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk</span> 
+                                
                             </div>
                         </div>
                     </a>
@@ -61,71 +61,72 @@
             </div>
         </main>
     </section>
-    <style>
-        .headerIconsContainer a:nth-child(2){
-            color: black;
-        }
-    </style>
     <script type="text/javascript">
+        var messages = [];
         $(document).ready(function(){
-            let messages = [];
-            setInterval(function(){
-                $.ajax({
-                    type:'GET',
-                    url: '/direct/getMessage/{{conta.id}}',
-                    success: function(res){
-                        if (messages.length != res.messages.length) {
-                            messages = res.messages;
-                            
-                            $('#msgContainer').empty();
-                            messages.forEach((msg) => {
-                                let temp;
-                                if (msg.sender_id == {{user.id}}){
-                                    temp = `
-                                    <div class="mymsg">
-                                        <div class="myballon">
-                                            ${msg.message}
-                                        </div>
-                                    </div>
-                                    `;
-                                } else {
-                                    temp = `
-                                    <div class="hismsg">
-                                        <div class="hisballon">
-                                            <div class="triangle"></div>
-                                            <div class="triangle1"></div>
-                                            ${msg.message}
-                                        </div>
-                                    </div>
-                                    `;
-                                };
-                                $('#msgContainer').append(temp);
-                            })
-                            $('#msgContainer').scrollTop($('#msgContainer').prop("scrollHeight"));
-                        }
-                        
-                    },
-                    error: function(res){
-                        console.log('ERROR');
-                    }
-                })
-            }, 1000)
+            getMessages();
+            setInterval(getMessages, 5000)
         });
 
+        const getMessages = () => {
+            $.ajax({
+                type:'GET',
+                url: '/direct/getMessage/{{conta.id}}',
+                success: function(res){
+                    if (messages.length != res.messages.length) {
+                        messages = res.messages;
+                        
+                        $('#msgContainer').empty();
+                        messages.forEach((msg) => {
+                            let temp;
+                            if (msg.sender_id == {{user.id}}){
+                                temp = `
+                                <div class="mymsg">
+                                    <div class="myballon">${msg.message}</div>
+                                </div>
+                                `;
+                            } else {
+                                temp = `
+                                <div class="hismsg">
+                                    <div class="hisballon">
+                                        <div class="triangle"></div><div class="triangle1"></div>
+                                        ${msg.message}
+                                    </div>
+                                </div>
+                                `;
+                            };
+                            $('#msgContainer').append(temp);
+                        })
+                        $('#msgContainer').scrollTop($('#msgContainer').prop("scrollHeight"));
+                    }
+                },
+                error: function(res){
+                    console.log('ERROR');
+                }
+            })
+        }
         //ajax
         $(document).on('submit', '#sendmsg', function(e){
             e.preventDefault();
+            let message = $('#msgbox').val();
             $.ajax({
                 type:'POST',
                 url: '/direct/inbox/{{conta.id}}',
                 data: {
-                    message: $('#msgbox').val(),
+                    message: message,
                     csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
                 },
                 success: function(data){
                     console.log(data);
-                    
-                    $('#msgContainer').scrollTop($('#msgContainer').prop("scrollHeight"));
+                    let temp = `
+                        <div class="mymsg">
+                            <div class="myballon">
+                                ${message}
+                            </div>
+                        </div>
+                    `;
+                    $('#msgContainer').append(temp)
+                    .scrollTop($('#msgContainer').prop("scrollHeight"));
                 }
             });
             document.getElementById("msgbox").value = "";

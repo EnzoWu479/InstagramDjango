@@ -2,11 +2,6 @@
 {% load static %}
 {% block content %}
     <link rel="stylesheet" href="{% static 'css/login.css'%}">
-    <style>
-        *{
-            font-family: "noto sans", "sans-serif";
-        }
-    </style>
 </head>
 <body>
     <section>
@@ -14,6 +9,7 @@
             <a href="" class="logo">
                 <img src="{% static 'img/Instagram_logo.png'%}" alt="">
             </a>
+            {% include 'partials/_alerts.html' %}
             <form class="containerInput" action="{% url 'login' %}" method="POST">
                 {% csrf_token %}
                 <input type="email" name="email" placeholder="Email">

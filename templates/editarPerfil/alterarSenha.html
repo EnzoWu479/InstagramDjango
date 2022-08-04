@@ -17,18 +17,18 @@
                 </div>
                 {% include 'partials/_footer.html' %}
             </div>
-            <form class="right">
+            <form class="right" action=" {% url 'alterarSenha' %}" method="POST" >
                 <div class="right_line">
                     <img class="right_line-img" src="{{user.profile.photo_100.url}}" alt="" >
                     {{user.username}}
                 </div>
                 <label class="right_label">
                     Senha antiga:
-                    <input type="password" class="right_input-text">
+                    <input type="password" name="oldPassword" class="right_input-text">
                 </label>
                 <label class="right_label">
                     Senha nova:
-                    <input type="password" class="right_input-text">
+                    <input type="password" name="newPassword" class="right_input-text">
                 </label>
                 <label class="right_label">
                     Confirmar senha nova:
