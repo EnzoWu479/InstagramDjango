@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+import django_heroku
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-o9uxj1p!*7qfcwy)@t!!m-=z=3n6lm8=-s*tfw+@w^^+spq@5k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ddah.herokuapp.com']
 
 
 # Application definition
@@ -77,10 +78,11 @@ WSGI_APPLICATION = 'setup.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME':'instagramDB',
-        'USER': 'postgres',
-        'PASSWORD': '30317512',
-        'HOST': 'localhost'
+        'NAME':'d2bu6f6vs2glhd',
+        'USER': 'neramewruodnll',
+        'PASSWORD': 'f8dc0a66a7528168035e447277ed31abe78b8d9ef48c9cdcde7ee28c29288c59',
+        'HOST': 'ec2-3-213-228-206.compute-1.amazonaws.com',
+        'PORT': '5432'
     }
 }
 
@@ -133,6 +135,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #Media
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+django_heroku.settings(locals())
 
 from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
