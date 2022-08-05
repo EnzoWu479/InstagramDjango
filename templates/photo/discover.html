@@ -63,4 +63,74 @@
             {% include 'partials/_footer.html' %}
         </div>
     </section>
+    <script type="text/javascript">
+        //ajax
+        $(document).on('submit', '#likeform', function(e){
+            e.preventDefault();
+            $.ajax({
+                type:'POST',
+                url: '/like/' + e.target.name,
+                data: {
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                },
+                success: function(data){
+                    console.log(data);
+                    
+                    if ($(`i#likebtn${e.target.name}`).hasClass('fa-regular')){
+                        $(`i#likebtn${e.target.name}`)
+                        .removeClass('fa-regular')
+                        .addClass('fa-solid')
+                        .css('color', 'red')
+                    } else {
+                        $(`i#likebtn${e.target.name}`)
+                        .removeClass('fa-solid')
+                        .addClass('fa-regular')
+                        .css('color', 'black')
+                    }
+                }
+            });
+        })
+
+        $(document).on('submit', '#savePost', function(e){
+            e.preventDefault();
+            $.ajax({
+                type:'POST',
+                url: '/save/' + e.target.name,
+                data: {
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                },
+                success: function(data){
+                    console.log(data);
+                    if ($(`i#savebtn${e.target.name}`).hasClass('fa-regular')){
+                        $(`i#savebtn${e.target.name}`).removeClass('fa-regular').addClass('fa-solid')
+                    } else {
+                        $(`i#savebtn${e.target.name}`).removeClass('fa-solid').addClass('fa-regular')
+                    }
+                }
+            });
+        })
+        $(document).on('submit', '#makeacomment', function(e){
+            e.preventDefault();
+            let comment = $(`#comment${e.target.name}`).val()
+            $.ajax({
+                type:'POST',
+                url: '/comment/' + e.target.name,
+                data: {
+                    commentary: comment,
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                },
+                success: function(data){
+                    console.log(data);
+
+                    $(`#mycomments${e.target.name}`).append(
+                        '<p><strong>{{user.username}}</strong>' + comment + '</p>'
+                    ).css('margin-bottom', '5px')
+                    $(`#comment${e.target.name}`).val('')
+                    $(`#countComments${e.target.name}`)
+                    .text((parseInt($(`#countComments${e.target.name}`).text()) + 1))
+                }
+            });
+            
+        })
+    </script>
 {% endblock %}
