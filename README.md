@@ -1,6 +1,6 @@
 # Clone Instagram 
 ## Descrição
-Eu fiz um clone do Instagram que funciona usando Django, PostgreSQL, HTML, CSS e JavaScript. Não é tão bom quanto o original, mas tem os recursos de login, CRUD dos posts, likes, comentários e opção de salvar post, sistema de seguir, além de mensagens em tempo real no direct. <br/> Consegui nesse pequeno projeto full stack aplicar conhecimentos adquiridos nos cursos da Alura de Banco de dados relacional, Django, PostGreSQL, jquery, etc.
+Eu fiz um clone do Instagram que funciona usando Django, PostgreSQL, HTML, CSS e JavaScript. Ele tem os recursos de login, CRUD dos posts, likes, comentários e opção de salvar post, sistema de seguir, além de mensagens em tempo real no direct. <br/> Consegui nesse pequeno projeto full stack aplicar conhecimentos adquiridos nos cursos da Alura de Banco de dados relacional, Django, PostGreSQL, jquery, etc.
 
 ##
 
