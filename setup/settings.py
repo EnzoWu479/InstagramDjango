@@ -77,10 +77,10 @@ WSGI_APPLICATION = 'setup.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME':'instagramTests',
-        'USER': 'postgres',
-        'PASSWORD': '1234',
-        'HOST': 'localhost'
+        'NAME':'verceldb',
+        'USER': 'default',
+        'PASSWORD': 'xy6gUQJDGm4L',
+        'HOST': 'ep-weathered-shape-88946992-pooler.us-east-1.postgres.vercel-storage.com'
     }
 }
 
